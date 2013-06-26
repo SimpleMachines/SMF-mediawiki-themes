@@ -23,11 +23,5 @@ by signing off your contributions, you acknowledge that you can and do license y
 * an easy way to do so, is to define an alias for the git commit command, which includes -s switch (reference: [How to create Git aliases](http://githacks.com/post/1168909216/how-to-create-git-aliases))
 * send a pull request to us.
 
-######How to submit a pull request:
-* If you want to send a bug fix for the version 2.1, send it to the branch ***release-2.1***
-* If you want to send a new feature, use the branch ***development***
-* You should never send any pull request against the master branch
-For more informations, the ideal branching we would like to follow is the one described in [this article](http://nvie.com/posts/a-successful-git-branching-model/)
-
 Finally, feel free to play around. That's what we're doing. ;)
 
