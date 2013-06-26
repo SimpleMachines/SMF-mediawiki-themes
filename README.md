@@ -4,7 +4,7 @@
 Curve Skin for MediaWiki 1.21.1
 
 This is Mediawiki Skin based on Curve for SMF development repository.
-Parts of this theme are licensed under [BSD 3-clause license](http://www.opensource.org/licenses/BSD-3-Clause), Others are GPL (http://www.gnu.org/copyleft/gpl.html)
+Parts of this theme are licensed under [BSD 3-clause license](http://www.opensource.org/licenses/BSD-3-Clause), Others are [GPL] (http://www.gnu.org/copyleft/gpl.html)
 
 ######Notes:
 
