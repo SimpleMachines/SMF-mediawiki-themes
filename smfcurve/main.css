@@ -9,7 +9,7 @@ a:hover
    text-decoration: underline;
 }
 
-a.new, #quickbar a.new { 
+a.new, #quickbar a.new, a.new:visited{ 
 color: #CC2200;
 }
 
@@ -66,6 +66,7 @@ body
 table {
    font-size: 100%;
    color: black;
+   padding-top: 10px;
    /* we don't want the bottom borders of <h2>s to be visible through
       floated tables */
 }
