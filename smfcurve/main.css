@@ -9,6 +9,10 @@ a:hover
    text-decoration: underline;
 }
 
+a.new, #quickbar a.new { 
+color: #CC2200;
+}
+
 /* Set a fontsize that will look the same in all browsers. */
 body
 {
