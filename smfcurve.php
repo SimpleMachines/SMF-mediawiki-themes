@@ -25,7 +25,10 @@
  * Images under separate license
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  */
-
+ 
+// remove the comment on the below if you are adding the menu from smf to your 
+// MW theme and correct the path to where your SSI.php file can be found
+//require("path/to/SSI.php"); 
 if (!defined('MEDIAWIKI'))
 	die(-1);
 
@@ -76,12 +79,16 @@ class smfcurveTemplate extends QuickTemplate
 
 		$this->html('headelement');
 
+		// if wanting to use the SMF menu in your theme remove the /* and */ in the following block 
+		// and enable the SSI.php with correct path at the top of this file
 		echo '
 <div id="wrapper">
 	<div id="header">
 		<div class="frame">
 			<div id="top_section">
-			</div>
+			', /* ssi_menubar(), */ '
+		
+			</div> 
 
 			<div id="userarea" class="upper_section">
 			

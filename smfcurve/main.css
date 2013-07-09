@@ -1472,7 +1472,7 @@ div#wrapper
 
 
 #header {
-    background: url("images/theme/main_block.png") no-repeat 0 -480px;
+    background: url("images/theme/main_block.png") #fefefe no-repeat 0 -480px;
     padding-left: 20px;
 	overflow:hidden;
 	min-height:150px;
@@ -1480,7 +1480,7 @@ div#wrapper
 #header div.frame {
     background: url("images/theme/main_block.png") no-repeat  100% -480px;
     display: block;
-    padding: 5px 20px 80px 0;
+    padding: 5px 20px 85px 0;
 }
 
 /* the content section */
@@ -1539,7 +1539,6 @@ div.title_bar
 #top_section
 {
 	min-height: 65px;
-	overflow: hidden;
 	margin-bottom: 3px;
 }
 #upper_section
