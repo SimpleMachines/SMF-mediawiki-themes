@@ -420,23 +420,4 @@ class smfcurveTemplate extends QuickTemplate
 	{
 		return htmlspecialchars($this->data[$str]);
 	}
-
-	function site_menu()
-	{
-		global $wgSMFPath, $user_settings, $section, $menulink;
-
-		// Setup our menu stuff.
-		$section = $menulink = 'wiki';
-	
-	
-		echo '
-			<div id="site_menu" class="align_right">
-				<ul class="dropmenu" id="site_nav">';
-
-	
-	
-		echo '
-				</ul>
-			</div>';	
-	}
 } // end of class
