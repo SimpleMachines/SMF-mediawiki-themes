@@ -120,7 +120,7 @@ class smfcurveTemplate extends QuickTemplate
 	<div id="content_section">
 		<div class="frame">
 			<div id="main_content_section">
-				<div class="floatleft" style="width: 15% !important">
+				<div class="floatleftleft">
 					<div id="column-one"', $this->html('userlangattributes'), '>
 					<!-- This is the header, login, register... -->
 						<h3 class="catbg"><span class="left"></span>User Info</h3>
@@ -164,14 +164,14 @@ class smfcurveTemplate extends QuickTemplate
 					</div>
 					<!-- end of the left (by default at least) column -->
 				</div>
-				<div class="floatright" style="width: 84% !important; margin-bottom: 0; margin-left: 16%">
+				<div class="floatrightright">
 					<div id="column-content" class="floatright">
 						<div id="content" ', $this->html('specialpageattributes') , '>
 							<a id="top"></a>', ($this->data['sitenotice'] ? '
 							<div id="siteNotice">' . $this->html('sitenotice') . '</div>' : ''), '
-							<h3 class="catbg">
+							<h1 class="catbg">
 								<span class="left"></span>', $this->html('title'), '
-							</h3>
+							</h1> 
 							<h3 id="siteSub">', $this->msg_ret('tagline'), '</h3>
 							<div id="contentSub"', $this->html('userlangattributes'), '>', $this->html('subtitle'), '</div>
 
@@ -399,7 +399,7 @@ class smfcurveTemplate extends QuickTemplate
 			foreach($cont as $key => $val)
 			{
 				echo '
-			<li id="', Sanitizer::escapeId($val['id']), '"', ($val['active'] ? ' class="active" ' : ''), '>
+			<li id="', Sanitizer::escapeId($val['id']), '"', (!empty($val['active']) ? ' class="active" ' : ''), '>
 				<a href="', htmlspecialchars($val['href']), '"', '>', htmlspecialchars($val['text']), '</a></li>';
 			}
 

@@ -114,7 +114,7 @@ h1 { font-size: 188%; }
 h1 .editsection { font-size: 53%; }
 h2 { font-size: 150%; }
 h2 .editsection { font-size: 67%; }
-h3, h4, h5, h6 {
+h1, h3, h4, h5, h6 {
    border-bottom: none;
    font-weight: bold;
 }
@@ -376,23 +376,30 @@ border: .5em solid white;
 border-width: .5em 0 .8em 1.4em;
 */
 }
-/*div.floatright p {
-	font-style: italic;
-}*/
+
+div.floatrightright {
+	clear: right;
+	float: none;
+	position: relative;
+	border: 0;
+	width: 84%; 
+	margin-bottom: 0; 
+	margin-left: 16%
+}
 div.floatleft, table.floatleft {
 	float: left;
 	clear: left;
 	position: relative;
 	margin: 0 .5em .5em 0;
 	border: 0;
-/*
-   margin: .3em .5em .5em 0;
-   border: .5em solid white;
-   border-width: .5em 1.4em .8em 0;
-*/
 }
-div.floatleft p {
-	font-style: italic;
+div.floatleftleft{
+	float: left;
+	clear: left;
+	position: relative;
+	margin: 0 .5em .5em 0;
+	border: 0;
+	width: 15%;
 }
 /* thumbnails */
 div.thumb {
@@ -1105,6 +1112,17 @@ div.mw-lag-warn-high {
 
 /* SMF's Styling... */
 h3.catbg span.left
+{
+   background:url(images/theme/main_block.png) no-repeat scroll 0 -160px transparent;
+   display:block;
+   float:left;
+   height:31px;
+   position:relative;
+   top:-6px;
+   width:9px;
+}
+
+h1.catbg span.left
 {
    background:url(images/theme/main_block.png) no-repeat scroll 0 -160px transparent;
    display:block;
