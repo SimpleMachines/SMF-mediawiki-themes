@@ -25,6 +25,7 @@ To install this skin;
 * Unzip the file rename to smfcurve
 * Copy it into skins folder
 * Open your LocalSettings.php file and add the following line to the end of the file
+
 > require_once "$IP/skins/smfcurve/smfcurve.php";
 
 ######How to contribute:
