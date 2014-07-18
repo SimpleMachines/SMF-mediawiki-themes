@@ -28,6 +28,15 @@ To install this skin;
 
 > require_once "$IP/skins/smfcurve/smfcurve.php";
 
+If you are upgrading from 1.0;
+* Download version 1.1
+* Unzip the file rename to smfcurve
+* Delete smfcurve folder - smfcurve.php and smfcurve.deps.php
+* Copy your newly downloaded folder to skins folder
+* Open your LocalSettings.php file and add the following line to the end of the file
+
+> require_once "$IP/skins/smfcurve/smfcurve.php";
+
 ######How to contribute:
 * fork the repository. If you are not used to Github, please check out [fork a repository](http://help.github.com/fork-a-repo).
 * branch your repository, to commit the desired changes.
