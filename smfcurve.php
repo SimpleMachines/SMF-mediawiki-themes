@@ -32,6 +32,15 @@
 if (!defined('MEDIAWIKI'))
 	die(-1);
 
+$wgExtensionCredits['skin'][] = array(
+	'path' => __FILE__,
+	'name' => 'smfCurve',
+	'url' => 'http//www.simplemachines.org',
+	'author' => array( 'Simple Machines Team' ),
+	'version' => '1.1',
+);
+$wgValidSkinNames['smfcurve'] = 'smfCurve';
+
 class Skinsmfcurve extends SkinTemplate
 {
 	function initPage (OutputPage $out)
@@ -55,10 +64,10 @@ class Skinsmfcurve extends SkinTemplate
 		parent::setupSkinUserCss($out);
 
 		// Append to the default screen common & print styles...
-		$out->addStyle('smfcurve/main.css', 'screen');
+		$out->addStyle('smfcurve/css/main.css', 'screen');
 		if ($wgHandheldStyle)
 			$out->addStyle($wgHandheldStyle, 'handheld');
-		$out->addStyle('smfcurve/rtl.css', 'screen', '', 'rtl');
+		$out->addStyle('smfcurve/css/rtl.css', 'screen', '', 'rtl');
 
 	}
 }
