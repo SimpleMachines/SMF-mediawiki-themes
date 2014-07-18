@@ -1,7 +1,7 @@
 **smfcurve**
 ========
 
-Curve Skin for MediaWiki 1.21.1
+Curve Skin for MediaWiki 1.23.x
 
 This is Mediawiki Skin based on Curve for SMF development repository.
 Parts of this theme are licensed under [BSD 3-clause license](http://www.opensource.org/licenses/BSD-3-Clause), Others are [GPL] (http://www.gnu.org/copyleft/gpl.html)
@@ -15,6 +15,17 @@ by signing off your contributions, you acknowledge that you can and do license y
 
 ######Branches organization:
 * ***master*** - is the main branch
+* ***1.1*** - new version for MediaWiki 1.23.x and later
+
+######Important Note for v1.1
+This version is valid for MediaWiki 1.23 and later releases, version 1.0 is for 1.22 and before.
+This version is for fixing compatibility issue with 1.23.x.
+To install this skin;
+* Download version 1.1
+* Unzip the file rename to smfcurve
+* Copy it into skins folder
+* Open your LocalSettings.php file and add the following line to the end of the file
+> require_once "$IP/skins/smfcurve/smfcurve.php";
 
 ######How to contribute:
 * fork the repository. If you are not used to Github, please check out [fork a repository](http://help.github.com/fork-a-repo).
@@ -24,4 +35,3 @@ by signing off your contributions, you acknowledge that you can and do license y
 * send a pull request to us.
 
 Finally, feel free to play around. That's what we're doing. ;)
-
