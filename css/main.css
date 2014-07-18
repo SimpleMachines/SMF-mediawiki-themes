@@ -1611,8 +1611,11 @@ select.qaction, input.qaction {
 }
 #main_menu {
 	float: none;
-	margin-top: 1em;
+	margin: 1em 0 0 3px;
 }
 #searchform {
 	padding: 0 0 0 5px;
+}
+#upper_section {
+	margin: 0 0 0 5px;
 }
