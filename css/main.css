@@ -358,10 +358,10 @@ table.small {
 
 /* images */
 div.floatright, table.floatright {
+	float: right;
 	clear: right;
-	float: none;
 	position: relative;
-	margin:0 0 0.5em 20%;
+	margin: 0 10px 0.5em 0;
 	border: 0;
 /*
 border: .5em solid white;
