@@ -174,7 +174,7 @@ class smfcurveTemplate extends QuickTemplate
 					<!-- end of the left (by default at least) column -->
 				</div>
 				<div class="floatrightright">
-					<div id="column-content" class="floatright">
+					<div id="column-content">
 						<div id="content" ', $this->html('specialpageattributes') , '>
 							<a id="top"></a>', ($this->data['sitenotice'] ? '
 							<div id="siteNotice">' . $this->html('sitenotice') . '</div>' : ''), '
