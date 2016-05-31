@@ -85,9 +85,12 @@ class smfcurveTemplate extends QuickTemplate
 <div id="wrapper">
 	<div id="header">
 		<div class="frame">
-			<div id="top_section">
-			', /* ssi_menubar(), */ '
-		
+			<div id="top_section">';
+
+		if (method_exists($this, 'customTopSection'))
+			$this->customTopSection();
+
+		echo '
 			</div> 
 
 			<div id="userarea" class="upper_section">
@@ -114,7 +117,12 @@ class smfcurveTemplate extends QuickTemplate
 		echo '
 					</ul>
 				</div>
-			</div>
+			</div>';
+
+		if (method_exists($this, 'customUserAreaAddon'))
+			$this->customUserAreaAddon();
+
+		echo '
 		</div>
 	</div>
 	<div id="content_section">
@@ -125,7 +133,12 @@ class smfcurveTemplate extends QuickTemplate
 					<!-- This is the header, login, register... -->
 						<h3 class="catbg"><span class="left"></span>User Info</h3>
 						<div class="windowbg2">
-							<span class="topslice"><span></span></span>
+							<span class="topslice"><span></span></span>';
+
+		if (method_exists($this, 'customSideBarUpper'))
+			$this->customSideBarUpper();
+
+		echo '
 							<ul', $this->html('userlangattributes') , '>';
 
 		foreach ($this->data['personal_urls'] as $key => $item)
@@ -160,12 +173,20 @@ class smfcurveTemplate extends QuickTemplate
 				$this->customBox($boxName, $cont);
 		}
 
+		if (method_exists($this, 'customSideBarLower'))
+			$this->customSideBarLower();
+
 		echo '
 					</div>
 					<!-- end of the left (by default at least) column -->
 				</div>
 				<div class="floatrightright">
-					<div id="column-content">
+					<div id="column-content">';
+
+		if (method_exists($this, 'customPageContentUpper'))
+			$this->customPageContentUpper();
+
+		echo '
 						<div id="content" ', $this->html('specialpageattributes') , '>
 							<a id="top"></a>', ($this->data['sitenotice'] ? '
 							<div id="siteNotice">' . $this->html('sitenotice') . '</div>' : ''), '
@@ -191,7 +212,12 @@ class smfcurveTemplate extends QuickTemplate
 						<br />
 						<!-- end content -->', ($this->data['dataAfterContent'] ?
 						$this->html ('dataAfterContent') : '') , '
-						<div class="visualClear"></div>
+						<div class="visualClear"></div>';
+
+		if (method_exists($this, 'customPageContentLower'))
+			$this->customPageContentLower();
+
+		echo '
 					</div>
 				</div>
 			</div>
@@ -200,11 +226,22 @@ class smfcurveTemplate extends QuickTemplate
 </div>
 <div id="footer_section">
 	<div class="frame">
-		<div class="smalltext floatleft">', 
-			$this->html('viewcount') , '
-			', $this->html('poweredbyico') , '<br />
-			
-		</div>
+		<div class="smalltext floatleft">';
+
+		if (method_exists($this, 'customPageFooter'))
+			$this->customPageFooter();
+		else
+			echo '
+			', $this->html('viewcount') , '
+			', $this->html('poweredbyico') , '<br />';
+
+			echo '			
+		</div>';
+
+		if (method_exists($this, 'customPageFooterExtra'))
+			$this->customPageFooterExtra();
+
+		echo '
 	</div>
 </div>
 <br class="clear" />
@@ -217,7 +254,12 @@ class smfcurveTemplate extends QuickTemplate
 <!-- Debug output:
 ' . $this->text_ret('debug') . '
 -->
-' : ''), '
+' : '');
+
+		if (method_exists($this, 'customBodyLower'))
+			$this->customBodyLower();
+
+		echo '
 </body></html>';
 //wfRestoreWarnings();
 	}
