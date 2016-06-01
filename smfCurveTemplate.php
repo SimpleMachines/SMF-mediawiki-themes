@@ -469,4 +469,13 @@ class smfcurveTemplate extends QuickTemplate
 	{
 		return htmlspecialchars($this->data[$str]);
 	}
+
+	/*
+	// Remove the above C style comment to enable the menubar
+	function customTopSection()
+	{
+		ssi_menubar();
+	}
+	// Remove the lower C style comment to enable the menubar 
+	*/
 } // end of class
