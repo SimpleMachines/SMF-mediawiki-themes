@@ -124,7 +124,7 @@ ul {
    list-style-type: square;
    margin: .3em 0 0 1.5em;
    padding: 0;
-   list-style-image: url(bullet.gif);
+   list-style-image: url(../images/bullet.gif);
 }
 ol {
    line-height: 1.5em;
@@ -484,35 +484,35 @@ table.rimage {
 */
 #bodyContent a.external,
 #bodyContent a.external[href ^="gopher://"] {
-   background: url(external.png) center right no-repeat;
+   background: url(../images/external.png) center right no-repeat;
    padding: 0 13px;
 }
 .rtl #bodyContent a.external,
 .rtl #bodyContent a.external[href ^="gopher://"] {
-   background-image: url(external-rtl.png);
+   background-image: url(../images/external-rtl.png);
 }
 #bodyContent a.external[href ^="https://"],
 .link-https {
-   background: url(lock_icon.gif) center right no-repeat;
+   background: url(../images/lock_icon.gif) center right no-repeat;
    padding: 0 16px;
 }
 #bodyContent a.external[href ^="mailto:"],
 .link-mailto {
-   background: url(mail_icon.gif) center right no-repeat;
+   background: url(../images/mail_icon.gif) center right no-repeat;
    padding: 0 18px;
 }
 #bodyContent a.external[href ^="news://"] {
-   background: url(news_icon.png) center right no-repeat;
+   background: url(../images/news_icon.png) center right no-repeat;
    padding: 0 18px;
 }
 #bodyContent a.external[href ^="ftp://"],
 .link-ftp {
-   background: url(file_icon.gif) center right no-repeat;
+   background: url(../images/file_icon.gif) center right no-repeat;
    padding: 0 18px;
 }
 #bodyContent a.external[href ^="irc://"],
 .link-irc {
-   background: url(discussionitem_icon.gif) center right no-repeat;
+   background: url(../images/discussionitem_icon.gif) center right no-repeat;
    padding: 0 18px;
 }
 #bodyContent a.external[href $=".ogg"], #bodyContent a.external[href $=".OGG"],
@@ -522,7 +522,7 @@ table.rimage {
 #bodyContent a.external[href $=".wav"], #bodyContent a.external[href $=".WAV"],
 #bodyContent a.external[href $=".wma"], #bodyContent a.external[href $=".WMA"],
 .link-audio {
-   background: url("audio.png") center right no-repeat;
+   background: url("../images/audio.png") center right no-repeat;
    padding: 0 13px;
 }
 #bodyContent a.external[href $=".ogm"], #bodyContent a.external[href $=".OGM"],
@@ -530,14 +530,14 @@ table.rimage {
 #bodyContent a.external[href $=".mpeg"], #bodyContent a.external[href $=".MPEG"],
 #bodyContent a.external[href $=".mpg"], #bodyContent a.external[href $=".MPG"],
 .link-video {
-   background: url("video.png") center right no-repeat;
+   background: url("../images/video.png") center right no-repeat;
    padding: 0 13px;
 }
 #bodyContent a.external[href $=".pdf"], #bodyContent a.external[href $=".PDF"],
 #bodyContent a.external[href *=".pdf#"], #bodyContent a.external[href *=".PDF#"],
 #bodyContent a.external[href *=".pdf?"], #bodyContent a.external[href *=".PDF?"],
 .link-document {
-   background: url("document.png") center right no-repeat;
+   background: url("../images/document.png") center right no-repeat;
    padding: 0 12px;
 }
 
@@ -574,7 +574,7 @@ in bg url to hide it from iemac */
 li#pt-userpage,
 li#pt-anonuserpage,
 li#pt-login {
-   background: url(user.gif) top left no-repeat;
+   background: url(../images/user.gif) top left no-repeat;
    padding-left: 20px;
    text-transform: none;
 }
