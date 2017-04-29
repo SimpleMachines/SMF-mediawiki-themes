@@ -1,0 +1,30 @@
+{
+	"name": "smfCurve",
+	"author": [
+		"Labradoodle-360",
+		"SM Team",
+		"..."
+	],
+	"url": "https://www.simplemachines.org",
+	"descriptionmsg": "smfCurve-desc",
+	"namemsg": "skinname-smfCurve",
+	"license-name": "BSD 3-clause",
+	"type": "skin",
+	"ValidSkinNames": {
+		"smfcurve": "smfCurve"
+	},
+	"MessagesDirs": {
+		"smfCurve": [
+			"i18n"
+		]
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "",
+		"remoteSkinPath": "smfCurve"
+	},
+	"AutoloadClasses": {
+		"SkinsmfCurve": "smfCurveTemplate.php",
+		"smfCurveTemplate": "smfCurveTemplate.php"
+	},
+	"manifest_version": 1
+}
