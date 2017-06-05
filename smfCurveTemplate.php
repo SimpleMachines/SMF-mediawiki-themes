@@ -275,8 +275,8 @@ class smfcurveTemplate extends QuickTemplate
 				', Html::input('search', (isset($this->data['search']) ? $this->data['search'] : ''), 'search',
 				array(
 					'id' => 'searchInput',
-					'title' => $this->skin->titleAttrib('search'),
-					'accesskey' => $this->skin->accesskey('search')
+					'title' => 'search', //$this->skin->titleAttrib('search'),
+					'accesskey' => 'search', //$this->skin->accesskey('search')
 				)), '
 				<input type="submit" name="go" class="button_submit" value="', $this->msg_ret('searcharticle'), '" ', ' />';
 				if ($wgUseTwoButtonsSearchForm)
@@ -308,8 +308,8 @@ class smfcurveTemplate extends QuickTemplate
 				isset($this->data['search']) ? $this->data['search'] : '', 'search',
 				array(
 					'id' => 'searchInput1',
-					'title' => $this->skin->titleAttrib('search'),
-					'accesskey' => $this->skin->accesskey('search')
+					'title' => 'search', //$this->skin->titleAttrib('search'),
+					'accesskey' => 'search', //$this->skin->accesskey('search')
 				)
 			), '
 
@@ -385,7 +385,7 @@ class smfcurveTemplate extends QuickTemplate
 				<a href="', htmlspecialchars($this->data['nav_urls']['permalink']['href']), '"','>', $this->msg_ret('permalink'), '</a></li>';
 		elseif ($this->data['nav_urls']['permalink']['href'] === '')
 			echo '
-			<li id="t-ispermalink"', $this->skin->tooltip('t-ispermalink'), '>', $this->msg_ret('permalink'), '</li>';
+			<li id="t-ispermalink"', $this->tooltip('t-ispermalink'), '>', $this->msg_ret('permalink'), '</li>';
 
 		wfRunHooks('SMF_CurveTemplateToolboxEnd', array(&$this));
 		wfRunHooks('SkinTemplateToolboxEnd', array(&$this));
@@ -427,10 +427,11 @@ class smfcurveTemplate extends QuickTemplate
 	/*************************************************************************************************/
 	function customBox ($bar, $cont)
 	{
-		$out = wfMsg($bar);
+		$msgObj = wfMessage( $bar );
+
 		echo '
-	<h3 class="catbg"><span class="left"></span>', (wfEmptyMsg($bar, $out) ? htmlspecialchars($bar) : htmlspecialchars($out)), '</h3>
-	<div class="windowbg2" id="', Sanitizer::escapeId('p-' . $bar), '"', $this->skin->tooltip('p-' . $bar), '>
+	<h3 class="catbg"><span class="left"></span>', htmlspecialchars( $msgObj->exists() ? $msgObj->text() : $bar ), '</h3>
+	<div class="windowbg2" id="', Sanitizer::escapeId('p-' . $bar), '"', $this->tooltip('p-' . $bar), '>
 		<span class="topslice"><span></span></span>';
 
 		if (is_array($cont))
@@ -478,4 +479,14 @@ class smfcurveTemplate extends QuickTemplate
 	}
 	// Remove the lower C style comment to enable the menubar 
 	*/
+
+	function titleAttrib($title)
+	{
+		return $title;
+	}
+
+	function tooltip($tooltip)
+	{
+		return htmlspecialchars($tooltip);
+	}
 } // end of class
