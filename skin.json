@@ -1,30 +1,54 @@
 {
-	"name": "smfCurve",
-	"author": [
-		"Labradoodle-360",
-		"SM Team",
-		"..."
-	],
+	"name": "smfCurve2",
+	"author": "Simple Machines Forum Team",
 	"url": "https://www.simplemachines.org",
-	"descriptionmsg": "smfCurve-desc",
-	"namemsg": "skinname-smfCurve",
+	"descriptionmsg": "smfCurve2-desc",
+	"namemsg": "skinname-smfCurve2",
 	"license-name": "BSD 3-clause",
 	"type": "skin",
 	"ValidSkinNames": {
-		"smfcurve": "smfCurve"
+		"smfcurve2": "smfCurve2"
 	},
 	"MessagesDirs": {
-		"smfCurve": [
+		"smfCurve2": [
 			"i18n"
 		]
 	},
+	"ResourceModules": {
+		"skins.smfcurve2": {
+			"targets": [ "desktop", "mobile" ],
+			"class": "ResourceLoaderSkinModule",
+			"styles": {
+				"css/main.css": {
+					"media": "screen"
+				},
+				"css/responsive.css": {
+					"media": "screen"
+				},
+				"css/mw.css": {
+					"media": "screen"
+				}
+			}
+		},
+		"skins.smfcurve2.js": {
+			"targets": [ "desktop", "mobile" ],
+			"scripts": [
+				"scripts/main.js"
+			]
+		}
+	},
 	"ResourceFileModulePaths": {
 		"localBasePath": "",
-		"remoteSkinPath": "smfCurve"
+		"remoteSkinPath": "smfCurve2"
+	},
+	"ResourceModuleSkinStyles": {
+		"smfcurve2": {
+			"+oojs-ui-core.styles": "css/ooui.css"
+		}
 	},
 	"AutoloadClasses": {
-		"SkinsmfCurve": "smfCurveTemplate.php",
-		"smfCurveTemplate": "smfCurveTemplate.php"
+		"SkinsmfCurve2": "smfCurve2Template.php",
+		"smfCurve2Template": "smfCurve2Template.php"
 	},
 	"manifest_version": 1
 }
