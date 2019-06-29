@@ -1,0 +1,104 @@
+/* Styles for info boxes
+------------------------------------------------- */
+/* noarticletext, mw-warning-with-logexcerpt */
+div.mw-warning-with-logexcerpt::before, div.mw-notification::before, .mw-lag-warn-normal::before,
+.mw-lag-warn-high::before {
+	width: 16px;
+	height: 16px;
+	background: url(../images/generic_icons_sprite.png) no-repeat -83px -83px;
+	left: 10px;
+	content: '';
+	position: absolute;
+	top: 50%;
+	margin-top: -8px;
+}
+div.mw-warning-with-logexcerpt, .mw-lag-warn-normal, .mw-lag-warn-high {
+	padding: 7px 10px 7px 35px;
+	margin-bottom: 0;
+	position: relative;
+	text-indent: 0;
+}
+div.mw-warning-with-logexcerpt, .mw-lag-warn-normal {
+	color: #666;
+	background: #fff6ca;
+	border: none;
+	border-top: 1px solid #ffd324;
+	border-bottom: 1px solid #ffd324;
+	margin-bottom: 6px;
+}
+div.mw-notification-area .mw-notification {
+	color: #222;
+	background: #cfc;
+	border-top: 1px solid green;
+	border-bottom: 1px solid green;
+	padding-left: 3em;
+}
+div.mw-notification::before {
+	background-position: -161px -83px;
+}
+div.mw-notification-area {
+	width: 23em;
+}
+div.mw-warning {
+	border: 1px solid #d6dfe2;
+	background-color: #e0e6f6;
+	padding: 5px 15px;
+	font-size: 95%;
+	box-shadow: 0 0 0 8px #f8f8f8;
+	margin-left: 50px;
+	margin-right: 50px;
+	text-align: center;
+}
+.mw-lag-warn-high::before {
+	background-position: -57px -83px;
+}
+.mw-lag-warn-high {
+	background-color: #fee;
+	border-top: 2px solid #c34;
+	border-bottom: 2px solid #c34;
+}
+
+/* Others */
+#mw-previewheader {
+	border-bottom: none;
+}
+.mw-htmlform-submit {
+	font-weight: bold;
+	padding-left: .3em;
+	padding-right: .3em;
+	margin-right: 2em;
+}
+.mw-summary-preview {
+	margin: 0.1em 0;
+}
+
+
+/* Another Button */
+.mw-ui-button.mw-ui-progressive {
+	display: inline-block;
+	text-transform: uppercase;
+	cursor: pointer;
+	border: 1px solid #ddd;
+	border-right: 1px solid #bbb;
+	border-bottom: 1px solid #aaa;
+	border-radius: 3px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+	padding: 0 0.7em;
+	overflow: visible;
+	color: #444;
+	font-size: 0.90em;
+	height: calc(2.1em);
+	line-height: 2em;
+	font-weight: 400;
+	background: #fff;
+	background-image: linear-gradient(to bottom,#e2e9f3 0%,#fff 70%);
+	max-width: none;
+}
+.mw-ui-button.mw-ui-progressive:hover {
+	color: #af6700;
+	text-decoration: none;
+	border: 1px solid #ddd;
+	border-left: 1px solid #bbb;
+	border-top: 1px solid #aaa;
+	box-shadow: -1px -1px 2px rgba(0,0,0,0.07), -1px -2px 4px rgba(255,255,255,0.33) inset;
+}
