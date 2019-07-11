@@ -2,6 +2,10 @@
 	"@metadata": {
 		"authors": []
 	},
-	"skinname-smfCurve": "smfCurve",
-	"smfCurve-desc": "Simple Machines Forum's default theme"
+	"skinname-smfCurve2": "smfCurve2",
+	"smfCurve-desc": "Simple Machines Forum's 2.1 default theme",
+	"smfcurve2-mobile-menu": "Main Menu",
+	"smfcurve2-user-menu": "User Menu",
+	"smfcurve2-mw-menu": "MediaWiki Menu",
+	"smfcurve2-action-addsection": "Add topic"
 }
