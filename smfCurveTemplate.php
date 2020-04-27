@@ -1,7 +1,7 @@
 <?php
 /**
- * SMF Curve
- 
+ * SMF Curve 2
+ *
  ** This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -17,24 +17,35 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
- * Copyright 2013, Simple Machines and Individual Contributors
+ * Copyright 2018, Simple Machines and Individual Contributors
  *
- * Thanks to Labradoodle-360
- *    for creating and donating this script to Simple Machines
+ * Based On smfcurve by Labradoodle-360
  *
  * Images under separate license
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  */
- 
-// remove the comment on the below if you are adding the menu from smf to your 
-// MW theme and correct the path to where your SSI.php file can be found
-//require("path/to/SSI.php"); 
+
+
+/** 
+ * If you wish to add your SMF forum's Menu bar :
+ *
+ * Remove the Comment,
+ * Correct the path to the SSI.php file located in the SMF software directory.
+ * And Set $showSMFmenu to true in line 94
+ */
+
+//	require_once("path/to/SSI.php");
+
+
 if (!defined('MEDIAWIKI'))
 	die(-1);
 
 class Skinsmfcurve extends SkinTemplate
 {
-	function initPage (OutputPage $out)
+	/**
+	 * @param OutputPage $out
+	 */
+	public function initPage(OutputPage $out)
 	{
 		parent::initPage($out);
 		$this->skinname = 'smfcurve';
@@ -42,451 +53,531 @@ class Skinsmfcurve extends SkinTemplate
 		$this->template = 'smfcurveTemplate';
 		$this->useHeadElement = true;
 
-	}
-	/*var $skinname = 'SMF_Curve';
-	var $stylename = 'SMF_Curve';
-	var $template = 'SMF_CurveTemplate';
-	var $useHeadElement = true;*/
+		// We want it responsive
+		$out->addMeta( 'viewport',
+			'width=device-width, initial-scale=1.0, ' .
+			'user-scalable=yes, minimum-scale=0.25, maximum-scale=5.0'
+		);
 
-	function setupSkinUserCss (OutputPage $out)
-	{
-		global $wgHandheldStyle;
+		// CSS & Less Files
+		$out->addModuleStyles( [
+			'mediawiki.skinning.content.externallinks',
+			'skins.smfcurve'
+		] );
 
-		parent::setupSkinUserCss($out);
-
-		// Append to the default screen common & print styles...
-		$out->addStyle('smfcurve/css/main.css', 'screen');
-		if ($wgHandheldStyle)
-			$out->addStyle($wgHandheldStyle, 'handheld');
+		// Right to left ?
 		$out->addStyle('smfcurve/css/rtl.css', 'screen', '', 'rtl');
 
+		// Load other scripts
+		$out->addModules( [
+			'skins.smfcurve.js'
+		] );
+
+	}
+
+	/**
+	 * Add CSS via ResourceLoader
+	 *
+	 * @param OutputPage $out
+	 */
+	function setupSkinUserCss( OutputPage $out ) {
+		parent::setupSkinUserCss( $out );
 	}
 }
 
-class smfcurveTemplate extends QuickTemplate
+class smfcurveTemplate extends BaseTemplate
 {
 	var $skin;
 
-	function execute ()
+	/* SMF Menu Bar, change to true to show. */
+	var $showSMFmenu = false;
+
+	// Use a logo or plain text ?
+	var $useLogoImage = true;
+	// Use another search box placed on the sidebar ?
+	var $useSideSearchBox = true;
+
+	/**
+	 * Outputs the entire contents of the page
+	 */
+	public function execute()
 	{
 		global $wgRequest, $imagesurl;
 
 		$this->skin = $skin = $this->data['skin'];
 		$action = $wgRequest->getText('action');
 
-		// Suppress warnings to prevent notices about missing indexes in $this->data
-		//wfSuppressWarnings();
-
 		$this->html('headelement');
 
-		// if wanting to use the SMF menu in your theme remove the /* and */ in the following block 
-		// and enable the SSI.php with correct path at the top of this file
 		echo '
-<div id="wrapper">
-	<div id="header">
-		<div class="frame">
-			<div id="top_section">';
+		<div id="footerfix">';
 
-		if (method_exists($this, 'customTopSection'))
-			$this->customTopSection();
-
-		echo '
-			</div> 
-
-			<div id="userarea" class="upper_section">
-			
-				<div id="upper_search">', $this->template_search_box(), '</div>
-				<div id="main_menu">
-					<ul class="dropmenu" id="menu_nav">';
-
-		foreach ($this->data['content_actions'] as $key => $tab)
-		{
-			/*
-				We don't want to give the watch tab an accesskey if the
-				page is being edited, because that conflicts with the
-				accesskey on the watch checkbox.  We also don't want to
-				give the edit tab an accesskey, because that's fairly su-
-				perfluous and conflicts with an accesskey (Ctrl-E) often
-				used for editing in Safari.
-			*/
 			echo '
-						<li id="', Sanitizer::escapeId('ca-' . $key), '"', (!empty($tab['class']) ? ' class="' . htmlspecialchars($tab['class']) . '"' : ''), '>
-							<a href="', htmlspecialchars($tab['href']), '"', (in_array($action, array('edit', 'submit')) && in_array($key, array('edit', 'watch', 'unwatch' )) ), ' class="firstlevel', $tab['class'] == 'selected' ? ' active' : '', '"><span class="firstlevel">', htmlspecialchars($tab['text']), '</span></a>
-						</li>';
-		}
-		echo '
-					</ul>
-				</div>
-			</div>';
+			<div id="header">
+				<div class="frame">';
 
-		if (method_exists($this, 'customUserAreaAddon'))
-			$this->customUserAreaAddon();
+			// Logo or Title
+			if (method_exists($this, 'customHeaderSection'))
+				$this->customHeaderSection();
 
-		echo '
-		</div>
-	</div>
-	<div id="content_section">
-		<div class="frame">
-			<div id="main_content_section">
-				<div class="floatleftleft">
-					<div id="column-one"', $this->html('userlangattributes'), '>
-					<!-- This is the header, login, register... -->
-						<h3 class="catbg"><span class="left"></span>User Info</h3>
-						<div class="windowbg2">
-							<span class="topslice"><span></span></span>';
+			$this->userMenu();
 
-		if (method_exists($this, 'customSideBarUpper'))
-			$this->customSideBarUpper();
+			$this->quickSearch();
 
-		echo '
-							<ul', $this->html('userlangattributes') , '>';
+			// Customization...
+			if (method_exists($this, 'customHeaderContent'))
+				$this->customHeaderContent();
 
-		foreach ($this->data['personal_urls'] as $key => $item)
-		{
+						// Do we have an SMF Menu ?
+						$this->smfMenu();
 			echo '
-								<li id="', Sanitizer::escapeId('pt-' . $key), '"', ($item['active'] ? ' class="active"' : ''), '>
-									<a href="', htmlspecialchars($item['href']) , '"', (!empty($item['class']) ? ' class="' . htmlspecialchars($item['class']) . '"' : ''), '>', htmlspecialchars($item['text']), '</a>
+						<div id="main_menu">
+							<ul class="dropmenu dropmenu_menu_0">';
+
+							foreach ($this->data['content_actions'] as $key => $tab)
+							{
+								/*
+									We don't want to give the watch tab an accesskey if the
+									page is being edited, because that conflicts with the
+									accesskey on the watch checkbox.  We also don't want to
+									give the edit tab an accesskey, because that's fairly su-
+									perfluous and conflicts with an accesskey (Ctrl-E) often
+									used for editing in Safari.
+								*/
+								echo '
+								<li id="', Sanitizer::escapeId('ca-' . $key), '"', (!empty($tab['class']) ? ' class="' . htmlspecialchars($tab['class']) . '"' : ''), '>
+									<a href="', htmlspecialchars($tab['href']), '"', (in_array($action, array('edit', 'submit')) && in_array($key, array('edit', 'watch', 'unwatch' )) ), ' class="firstlevel', $tab['class'] == 'selected' ? ' active' : '', '"><span class="generic_icons ', Sanitizer::escapeId($key), '"></span><span class="firstlevel">'.htmlspecialchars($tab['text']).'</span></a>
 								</li>';
-		}
-		echo '
+							}
+							echo '
 							</ul>
-							<span class="botslice"><span></span></span>
-						</div>
-						<br />';
-
-		$sidebar = $this->data['sidebar'];
-		if (!isset($sidebar['SEARCH']))
-			$sidebar['SEARCH'] = true;
-		if (!isset($sidebar['TOOLBOX']))
-			$sidebar['TOOLBOX'] = true;
-		if (!isset($sidebar['LANGUAGES']))
-			$sidebar['LANGUAGES'] = true;
-		foreach ($sidebar as $boxName => $cont)
-		{
-			if ($boxName === 'SEARCH')
-				$this->searchBox();
-			elseif ($boxName === 'TOOLBOX')
-				$this->toolbox();
-			elseif ($boxName === 'LANGUAGES')
-				$this->languageBox();
-			else
-				$this->customBox($boxName, $cont);
-		}
-
-		if (method_exists($this, 'customSideBarLower'))
-			$this->customSideBarLower();
-
-		echo '
-					</div>
-					<!-- end of the left (by default at least) column -->
+						</div>';
+			echo '
 				</div>
-				<div class="floatrightright">
-					<div id="column-content">';
+			</div>
+			<!-- #header -->
+			<div id="wrapper">
+				<div id="content_section">
+					<div class="frame">';
 
-		if (method_exists($this, 'customPageContentUpper'))
-			$this->customPageContentUpper();
+					// Let's get dem Indicators, such as the Help link.
+					if ( is_callable( [ $this, 'getIndicators' ] ) ) {
+						echo '<div class="indicator righttext">',$this->getIndicators(),'</div>';
+					}
 
-		echo '
-						<div id="content" ', $this->html('specialpageattributes') , '>
-							<a id="top"></a>', ($this->data['sitenotice'] ? '
-							<div id="siteNotice">' . $this->html('sitenotice') . '</div>' : ''), '
-							<h1 class="catbg">
-								<span class="left"></span>', $this->html('title'), '
-							</h1> 
-							<h3 id="siteSub">', $this->msg_ret('tagline'), '</h3>
-							<div id="contentSub"', $this->html('userlangattributes'), '>', $this->html('subtitle'), '</div>
+					// Customization...
+					if (method_exists($this, 'customUserAreaAddon'))
+						$this->customUserAreaAddon();
 
-							<!-- start content -->
-							<span class="clear upperframe"><span></span></span>
-							<div class="roundframe flow_auto">
-								<div class="innerframe">', ($this->data['undelete'] ? '
-								<div id="contentSub2">' . $this->html('undelete') . '</div>' : ''), ($this->data['newtalk'] ? '
-								<div class="usermessage">' . $this->html('newtalk') . '</div>' : ''), ($this->data['showjumplinks'] ? '
-								<div id="jump-to-nav">
-									' . $this->msg_ret('jumpto') . ' <a href="#column-one">' . $this->msg_ret('jumptonavigation') . '</a>, <a href="#searchInput">' . $this->msg_ret('jumptosearch') . '</a>
-								</div>' : ''),
-								$this->html('bodytext'), ($this->data['catlinks'] ? $this->html('catlinks') : ''), '
+				echo '
+						<div id="main_content_section">
+							<div id="sleft-side">
+								<div id="column-one"', $this->html('userlangattributes'), '>';
+
+					$sidebar = $this->data['sidebar'];
+
+					// Force the rendering of the following boxes
+					if (!isset($sidebar['SEARCH']))
+						$sidebar['SEARCH'] = true;
+					if (!isset($sidebar['TOOLBOX']))
+						$sidebar['TOOLBOX'] = true;
+					if (!isset($sidebar['LANGUAGES']))
+						$sidebar['LANGUAGES'] = true;
+
+					foreach ($sidebar as $boxName => $cont)
+					{
+						if ( $cont === false ) {
+							continue;
+						}
+
+						// Numeric strings gets an integer when set as key, cast back - T73639
+						$boxName = (string)$boxName;
+
+						switch ($boxName) {
+							case 'SEARCH':
+								if($this->useSideSearchBox)
+									$this->buildBox('sb', $this->searchBox(), 'search');
+								break;
+
+							case 'TOOLBOX':
+								$this->buildBox('tb', $this->getToolbox(), 'toolbox', 'SkinTemplateToolboxEnd' );
+								Hooks::run( 'smfcurveAfterToolbox' );
+								break;
+
+							case 'LANGUAGES':
+								if ($this->data['language_urls'] !== false)
+									$this->buildBox('lang', $this->data['language_urls'], 'otherlanguages');
+								break;
+
+							default:
+								$this->buildBox($boxName, $cont);
+								break;
+						}
+					}
+
+					// Customization...
+					if (method_exists($this, 'customSideBarLower'))
+						$this->customSideBarLower();
+
+					echo '
+								</div>
+								<!-- end of the left (by default at least) column -->
+							</div>
+							<div id="sright-side">
+								<div id="column-content">';
+
+					// Customization...
+					if (method_exists($this, 'customPageContentUpper'))
+						$this->customPageContentUpper();
+
+					echo '
+									<div id="content" ', $this->html('specialpageattributes') , '>
+										<a id="top"></a>', ($this->data['sitenotice'] ? '
+										<div id="siteNotice">' . $this->html('sitenotice') . '</div>' : ''), '
+										<div class="cat_bar">
+											<h3 class="catbg">
+												<span class="left"></span>', $this->html('title'), '
+												<span id="siteSub" class="floatright">', $this->getMsg('tagline')->text(), '</span>
+											</h3>
+											', ($this->data['subtitle'] ? '<div id="contentSub" class="desc">'.$this->data['subtitle'].'</div>' : ''), '
+										</div>
+
+										<!-- start content -->
+										<span class="upperframe"><span></span></span>
+										<div class="roundframe flow_auto">
+											<div class="innerframe">', ($this->data['undelete'] ? '
+												<div id="contentSub2">' . $this->html('undelete') . '</div>' : ''), ($this->data['newtalk'] ? '
+												<div class="usermessage">' . $this->html('newtalk') . '</div>' : ''), ($this->data['showjumplinks'] ? '
+												<div id="jump-to-nav">
+													' . $this->getMsg('jumpto')->text() . ' <a href="#column-one">' . $this->getMsg('jumptonavigation')->text() . '</a>, <a href="#searchInput">' . $this->getMsg('jumptosearch')->text() . '</a>
+												</div>' : ''),
+												$this->html('bodytext'), ($this->data['catlinks'] ? $this->html('catlinks') : ''), '
+											</div>
+										</div>
+										<span class="lowerframe"><span></span></span>
+									</div>
+
+									<br />
+									<!-- end content -->', ($this->data['dataAfterContent'] ?
+									$this->html ('dataAfterContent') : '') , '
+									<div class="visualClear"></div>';
+
+					// Customization...
+					if (method_exists($this, 'customPageContentLower'))
+						$this->customPageContentLower();
+
+					echo '
+								</div>
 							</div>
 						</div>
-						<span class="lowerframe"><span></span></span>
-						<br />
-						<!-- end content -->', ($this->data['dataAfterContent'] ?
-						$this->html ('dataAfterContent') : '') , '
-						<div class="visualClear"></div>';
-
-		if (method_exists($this, 'customPageContentLower'))
-			$this->customPageContentLower();
-
-		echo '
 					</div>
 				</div>
 			</div>
+			<!-- #wrapper -->
 		</div>
-	</div>
-</div>
-<div id="footer_section">
-	<div class="frame">
-		<div class="smalltext floatleft">';
+		<!-- #footerfix -->';
 
-		if (method_exists($this, 'customPageFooter'))
-			$this->customPageFooter();
-		else
-			echo '
-			', $this->html('viewcount') , '
-			', $this->html('poweredbyico') , '<br />';
-
-			echo '			
-		</div>';
-
-		if (method_exists($this, 'customPageFooterExtra'))
-			$this->customPageFooterExtra();
+		Hooks::run( 'smfcurveBeforeFooter' );
 
 		echo '
-	</div>
-</div>
-<br class="clear" />
+		<div id="footer_section">
+			<div class="frame">';
 
-</div>
+				// Customization...
+				if (method_exists($this, 'customPageFooter'))
+					$this->customPageFooter();
+				else {
+					echo '
+					<ul class="footer-links floatleft">';
 
-', $this->html('bottomscripts') /* JS call to runBodyOnloadHook */ , '
-', $this->html('reporttime'), '
-', ($this->data['debug'] ? '
-<!-- Debug output:
-' . $this->text_ret('debug') . '
--->
-' : '');
+					foreach($this->getFooterLinks() as $cat=>$links) {
+						foreach($links as $link) {							
+							echo'
+							<li class="ft-', $link, '', $link=="lastmod" ? ' block' : '', '', !empty($link) ? '' : ' hidden', '">', $this->html($link) , '</li>';
+						}
+					}
 
+					echo'
+					</ul>
+					<ul class="footer-icons floatright">';
+
+					foreach($this->getFooterIcons('icononly') as $icon_groups => $icons) {
+						foreach($icons as $icon) {
+							echo'
+							<li ', !empty($icon) ? '' : 'class="hidden"', '>', $this->getSkin()->makeFooterIcon($icon) , '</li>';
+						}
+					}
+
+					echo'
+					</ul>';
+				}
+
+				// Customization...
+				if (method_exists($this, 'customPageFooterExtra'))
+					$this->customPageFooterExtra();
+
+				echo '
+			</div>
+		</div>
+		<!-- #footer -->';
+
+		// Debug Toolbar, scripts and stuff
+		$this->printTrail();
+
+		// Customization...
 		if (method_exists($this, 'customBodyLower'))
 			$this->customBodyLower();
 
 		echo '
-</body></html>';
-//wfRestoreWarnings();
-	}
-// end of execute() method
-
-	function template_search_box()
-	{
-		global $wgUseTwoButtonsSearchForm;
-
-		echo '
-		<form action="', $this->text_ret('wgScript'), '" id="searchform1" class="middletext">
-				<input type="hidden" name="title" value="', $this->text_ret('searchtitle'), '"/>
-				', Html::input('search', (isset($this->data['search']) ? $this->data['search'] : ''), 'search',
-				array(
-					'id' => 'searchInput',
-					'title' => 'search', //$this->skin->titleAttrib('search'),
-					'accesskey' => 'search', //$this->skin->accesskey('search')
-				)), '
-				<input type="submit" name="go" class="button_submit" value="', $this->msg_ret('searcharticle'), '" ', ' />';
-				if ($wgUseTwoButtonsSearchForm)
-					echo '&nbsp;
-				<input type="submit" name="fulltext" class="button_submit" value="', $this->msg_ret('searchbutton'), '" ' . ' />';
-				else
-					echo '
-				<div>
-					<a href="' . $this->text_ret('searchaction') . '" rel="search">', $this->msg_ret('powersearch-legend'), '</a>
-				</div>';
-				echo '
-			</form>';
-	}
-	
-	// Search Box
-	function searchBox ()
-	{
-		global $wgUseTwoButtonsSearchForm;
-
-		echo '
-	<h3 class="catbg"><span class="left"></span>Search</h3>
-	<div class="windowbg2">
-		<span class="topslice"><span></span></span>
-		<form action="', $this->text_ret('wgScript'), 
-		'" id="searchform">
-			<input type="hidden" name="title" value="', $this->text_ret('searchtitle') , '"/>',
-			Html::input(
-				'search',
-				isset($this->data['search']) ? $this->data['search'] : '', 'search',
-				array(
-					'id' => 'searchInput1',
-					'title' => 'search', //$this->skin->titleAttrib('search'),
-					'accesskey' => 'search', //$this->skin->accesskey('search')
-				)
-			), '
-
-			<br /><br />
-			<input type="submit" name="go" class="button_submit" value="', $this->msg_ret('searcharticle'), '"',  ' />', ($wgUseTwoButtonsSearchForm ? '&nbsp;
-			<input type="submit" name="fulltext" class="button_submit" value="' . $this->msg_ret('searchbutton') . '"' . ' />' : '
-			<div>
-				<a href="' . $this->text_ret('searchaction') . '" rel="search">' . $this->msg_ret('powersearch-legend') . '</a>
-			</div>'), '
-		</form>
-		<span class="botslice"><span></span></span>
-	</div>
-	<br />';
+		</body></html>';
 	}
 
-	/*************************************************************************************************/
-	function toolbox ()
+	/**
+	 * User Menu
+	 */
+	public function userMenu()
 	{
 		echo '
-	<h3 class="catbg"><span class="left"></span>', $this->msg_ret('toolbox'), '</h3>
-	<div class="windowbg2">
-		<span class="topslice"><span></span></span>
-		<ul>';
+		<div class="main_menu">
+			<ul', $this->html('userlangattributes') , ' class="dropmenu" id="top_info">';
 
-		if ($this->data['notspecialpage'])
-			echo '
-			<li id="t-whatlinkshere">
-				<a href="', htmlspecialchars($this->data['nav_urls']['whatlinkshere']['href']), '"',  '>', 
-					$this->msg_ret('whatlinkshere'), '
-				</a>
-			</li>', ($this->data['nav_urls']['recentchangeslinked'] ? '
-			<li id="t-recentchangeslinked">
-				<a href="' . htmlspecialchars($this->data['nav_urls']['recentchangeslinked']['href']) . '"' . '>' . 
-					$this->msg_ret('recentchangeslinked-toolbox') . '
-				</a>
-			</li>' : '');
-
-		if (isset($this->data['nav_urls']['trackbacklink']) && $this->data['nav_urls']['trackbacklink'])
-			echo '
-			<li id="t-trackbacklink">
-				<a href="', htmlspecialchars($this->data['nav_urls']['trackbacklink']['href']), '"',  '>
-					', $this->msg_ret('trackbacklink'), '
-				</a>
-			</li>';
-
-		if ($this->data['feeds'])
-		{
-			echo '
-			<li id="feedlinks">';
-			foreach($this->data['feeds'] as $key => $feed)
-				echo '
-				<a id="', Sanitizer::escapeId('feed-' . $key). '" href="', htmlspecialchars($feed['href']), '" rel="alternate" type="application/', $key, '+xml" class="feedlink"', '>', htmlspecialchars($feed['text']), '</a>&nbsp;';
-			echo '
-			</li>';
-		}
-
-		foreach (array('contributions', 'log', 'blockip', 'emailuser', 'upload', 'specialpages') as $special)
-			if($this->data['nav_urls'][$special])
-				echo '
-			<li id="t-', $special, '">
-				<a href="', htmlspecialchars($this->data['nav_urls'][$special]['href']), '"',  '>', $this->msg_ret($special), '</a>
-			</li>';
-
-		if (!empty($this->data['nav_urls']['print']['href']))
-			echo '
-			<li id="t-print">
-				<a href="', htmlspecialchars($this->data['nav_urls']['print']['href']), '" rel="alternate"', '>', $this->msg_ret('printableversion'), '</a>
-			</li>';
-
-		if (!empty($this->data['nav_urls']['permalink']['href']))
-			echo '
-			<li id="t-permalink">
-				<a href="', htmlspecialchars($this->data['nav_urls']['permalink']['href']), '"','>', $this->msg_ret('permalink'), '</a></li>';
-		elseif ($this->data['nav_urls']['permalink']['href'] === '')
-			echo '
-			<li id="t-ispermalink"', $this->tooltip('t-ispermalink'), '>', $this->msg_ret('permalink'), '</li>';
-
-		wfRunHooks('SMF_CurveTemplateToolboxEnd', array(&$this));
-		wfRunHooks('SkinTemplateToolboxEnd', array(&$this));
-		
-		echo '
-		</ul>
-		<span class="botslice"><span></span></span>
-	</div>
-	<br />';
-	}
-
-	/*************************************************************************************************/
-	function languageBox ()
-	{
-		if(!$this->data['language_urls'])
-			return;
-
-		echo '
-	<h3', $this->html('userlangattributes'), ' class="catbg"><span class="left"></span>', $this->msg_ret('otherlanguages'), '</h3>
-	<div class="windowbg2">
-		<span class="topslice"><span></span></span>
-		<ul>';
-
-		foreach($this->data['language_urls'] as $langlink)
-		{
-			echo '
-            <li class="', htmlspecialchars($langlink['class']), '">
-				<a href="', htmlspecialchars($langlink['href']), '">', $langlink['text'], '</a>
-			</li>';
-		}
-
-		echo '
-		</ul>
-		<span class="botslice"><span></span></span>
-	</div>
-	<br />';
-	}
-
-	/*************************************************************************************************/
-	function customBox ($bar, $cont)
-	{
-		$msgObj = wfMessage( $bar );
-
-		echo '
-	<h3 class="catbg"><span class="left"></span>', htmlspecialchars( $msgObj->exists() ? $msgObj->text() : $bar ), '</h3>
-	<div class="windowbg2" id="', Sanitizer::escapeId('p-' . $bar), '"', $this->tooltip('p-' . $bar), '>
-		<span class="topslice"><span></span></span>';
-
-		if (is_array($cont))
-		{
-			echo '
-         <ul>';
-
-			foreach($cont as $key => $val)
+			foreach ($this->data['personal_urls'] as $key => $item)
 			{
 				echo '
-			<li id="', Sanitizer::escapeId($val['id']), '"', (!empty($val['active']) ? ' class="active" ' : ''), '>
-				<a href="', htmlspecialchars($val['href']), '"', '>', htmlspecialchars($val['text']), '</a></li>';
+				<li id="', Sanitizer::escapeId('pt-' . $key), '"', ($item['active'] ? ' class="active"' : ''), '>
+					<a href="', htmlspecialchars($item['href']) , '"', (!empty($item['class']) ? ' class="firstlevel ' . htmlspecialchars($item['class']) . '"' : ''), '><span class="firstlevel">', htmlspecialchars($item['text']), '</span></a>
+				</li>';
 			}
 
-			echo '
-         </ul>';
-		} 
-		else
-			// allow raw HTML block to be defined by extensions
-			echo $cont;
+		echo '			
+			</ul>
+		</div>';
+	}
+
+	/**
+	 * Quick Search Box
+	 */
+	public function quickSearch()
+	{
+		global $wgUseTwoButtonsSearchForm;
 
 		echo '
-		<span class="botslice"><span></span></span>
-	</div>
-	<br />';
+		<form id="search_form" class="search_form floatright" action="', $this->get('wgScript'), '">
+			<input type="hidden" name="title" value="', $this->get('searchtitle'), '"/>
+			', Html::input('search', (isset($this->data['search']) ? $this->data['search'] : ''), 'search',
+			array(
+				'id' => 'searchInput',
+				'title' => 'search',
+				'accesskey' => 'search',
+			)), '
+			<input type="submit" name="go" class="button" value="', $this->getMsg('searcharticle')->text(), '" ', ' />';
+
+			echo '
+		</form>';
 	}
 
-	// Why is there no function that does what msg() does but returns it?
-	function msg_ret ($str)
+	/**
+	 * Search Block Content
+	 *
+	 * @returns string $output
+	 */
+	function searchBox()
 	{
-		return htmlspecialchars($this->translator->translate($str));
+		$output = '
+			<form action="'.$this->get('wgScript').'" id="searchform">
+				<input type="hidden" name="title" value="'.$this->get('searchtitle').'"/>';
+
+		$output .=	Html::input(
+						'search',
+						(isset($this->data['search']) ? $this->data['search'] : ''),
+						'search',
+						array(
+							'id' => 'searchInput1',
+							'title' => 'search',
+							'accesskey' => 'search',
+							'class' => 'block',
+						)
+					);
+
+		$output .= '
+				<input type="submit" name="fulltext" class="button" value="' . $this->getMsg('searchbutton')->text() . '"' . ' />
+				<a href="' . $this->get('searchaction') . '" rel="search" class="button">' . $this->getMsg('powersearch-legend')->text() . '</a>
+			</form>';
+
+		return $output;
 	}
 
-	// Same thing for text()!
-	function text_ret ($str)
+	/**
+	 * Tool Box
+	 */
+	function toolbox()
 	{
-		return htmlspecialchars($this->data[$str]);
+		echo '
+		<div class="side-block">
+			<div class="cat_bar">
+				<h3 class="catbg">
+					<span class="left"></span>
+					', $this->getMsg('toolbox')->text(), '
+				</h3>
+			</div>
+			<div class="windowbg">
+				<span class="topslice"><span></span></span>
+				<ul>';
+
+				if ($this->data['notspecialpage'])
+					echo '
+					<li id="t-whatlinkshere">
+						<a href="', htmlspecialchars($this->data['nav_urls']['whatlinkshere']['href']), '"',  '>', 
+							$this->getMsg('whatlinkshere')->text(), '
+						</a>
+					</li>', ($this->data['nav_urls']['recentchangeslinked'] ? '
+					<li id="t-recentchangeslinked">
+						<a href="' . htmlspecialchars($this->data['nav_urls']['recentchangeslinked']['href']) . '"' . '>' . 
+							$this->getMsg('recentchangeslinked-toolbox')->text() . '
+						</a>
+					</li>' : '');
+
+				if (isset($this->data['nav_urls']['trackbacklink']) && $this->data['nav_urls']['trackbacklink'])
+					echo '
+					<li id="t-trackbacklink">
+						<a href="', htmlspecialchars($this->data['nav_urls']['trackbacklink']['href']), '"',  '>
+							', $this->getMsg('trackbacklink')->text(), '
+						</a>
+					</li>';
+
+				if ($this->data['feeds'])
+				{
+					echo '
+					<li id="feedlinks">';
+					foreach($this->data['feeds'] as $key => $feed)
+						echo '
+						<a id="', Sanitizer::escapeId('feed-' . $key). '" href="', htmlspecialchars($feed['href']), '" rel="alternate" type="application/', $key, '+xml" class="feedlink"', '>', htmlspecialchars($feed['text']), '</a>&nbsp;';
+					echo '
+					</li>';
+				}
+
+				foreach (array('contributions', 'log', 'blockip', 'emailuser', 'upload', 'specialpages') as $special)
+					if($this->data['nav_urls'][$special])
+						echo '
+					<li id="t-', $special, '">
+						<a href="', htmlspecialchars($this->data['nav_urls'][$special]['href']), '"',  '>', $this->getMsg($special)->text(), '</a>
+					</li>';
+
+				if (!empty($this->data['nav_urls']['print']['href']))
+					echo '
+					<li id="t-print">
+						<a href="', htmlspecialchars($this->data['nav_urls']['print']['href']), '" rel="alternate"', '>', $this->getMsg('printableversion')->text(), '</a>
+					</li>';
+
+				if (!empty($this->data['nav_urls']['permalink']['href']))
+					echo '
+					<li id="t-permalink">
+						<a href="', htmlspecialchars($this->data['nav_urls']['permalink']['href']), '"','>', $this->getMsg('permalink')->text(), '</a></li>';
+				elseif ($this->data['nav_urls']['permalink']['href'] === '')
+					echo '
+					<li id="t-ispermalink">', $this->getMsg('permalink')->text(), '</li>';
+
+				Hooks::run('smfcurveAfterToolboxEnd');
+
+				echo '
+				</ul>
+				<span class="botslice"><span></span></span>
+			</div>
+		</div>';
 	}
 
-	/*
-	// Remove the above C style comment to enable the menubar
-	function customTopSection()
+	/**
+	 * @param string $name
+	 * @param array|string $content
+	 * @param null|string $msg
+	 * @param null|string|array $hook
+	 */
+	protected function buildBox($boxName, $cont, $msg = null, $hook = null)
 	{
-		ssi_menubar();
-	}
-	// Remove the lower C style comment to enable the menubar 
-	*/
+		if ($msg === null)
+			$msg = $boxName;
 
-	function titleAttrib($title)
-	{
-		return $title;
+		$msgObj = wfMessage( $msg );
+		$labelId = Sanitizer::escapeIdForAttribute( "p-$boxName-label" );
+
+		echo '
+		<div class="side-block" role="navigation" id="', htmlspecialchars(Sanitizer::escapeIdForAttribute("p-$boxName")), '" aria-labelledby="', htmlspecialchars($labelId), '">
+			<div class="cat_bar">
+				<h3 id="', htmlspecialchars($labelId), '" class="catbg" ', $this->html('userlangattributes'), '>
+					', htmlspecialchars( $msgObj->exists() ? $msgObj->text() : $msg ), '
+				</h3>
+			</div>
+			<div class="windowbg">
+				<span class="topslice"><span></span></span>';
+
+				if (is_array($cont))
+				{
+					echo '
+					<ul>';
+
+					foreach($cont as $key => $val)
+					{
+						echo $this->makeListItem( $key, $val );
+					}
+
+					if ($hook !== null) {
+						// Avoid PHP 7.1 warning
+						$skin = $this;
+						Hooks::run($hook, [ &$skin, true ]);
+					}
+
+					echo '
+					</ul>';
+				} else
+					// Allow raw HTML block to be defined by extensions
+					echo $cont;
+
+				echo '
+				<span class="botslice"><span></span></span>
+			</div>
+		</div>';
 	}
 
-	function tooltip($tooltip)
+	/**
+	 * The One and only Logo
+	 */
+	function customHeaderSection()
 	{
-		return htmlspecialchars($tooltip);
+		global $wgLogo;
+
+		echo '
+		<h1 class="forumtitle">
+			<a id="top" href="', htmlspecialchars( $this->data['nav_urls']['mainpage']['href'] ), '" ', Xml::expandAttributes( Linker::tooltipAndAccesskeyAttribs( 'p-logo' ) ), '>
+				', $this->useLogoImage ? '<img src="'.$wgLogo.'" alt="" title=""/>' : $this->data['sitename'], '
+			</a>
+		</h1>';
 	}
-} // end of class
+
+	/**
+	 * SMF Related Integrations
+	 * Works after correctly filling the SSI.php path on top of this file
+	 * And settings showSMFmenu to true.
+	 *
+	 * smfMenu() --> Loads Forum Menu.
+	 */
+	function smfMenu()
+	{
+		if((defined('SMF') && $this->showSMFmenu))
+		{
+			echo'
+			<a class="menu_icon mobile_generic_menu_main"></a>
+			<div id="genericmenu">
+				<div id="mobile_generic_menu_main" class="popup_container">
+					<div class="popup_window description">
+						<div class="popup_heading">
+							', $this->getMsg('smfcurve-mobile-menu')->text(), '
+							<a href="javascript:void(0);" class="generic_icons delete hide_popUp_main"></a>
+						</div>
+						', ssi_menubar(), '
+					</div>
+				</div>
+			</div>';
+		}
+	}
+
+}

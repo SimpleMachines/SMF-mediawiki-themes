@@ -1,0 +1,144 @@
+.skin-timeless .oo-ui-windowManager-modal > .oo-ui-dialog,
+.skin-timeless .ve-ui-overlay-global {
+	z-index: 101;
+}
+
+body > .oo-ui-windowManager,
+.oo-ui-defaultOverlay {
+	z-index: 101;
+	font-size: 0.95em;
+}
+
+/* Buttons Container */
+.oo-ui-buttonElement {
+	margin: 0;
+}
+/* Buttons Colors and stuff */
+.oo-ui-buttonElement-framed.oo-ui-widget-enabled.oo-ui-flaggedElement-primary.oo-ui-flaggedElement-progressive > .oo-ui-buttonElement-button:active,
+.oo-ui-buttonElement-framed.oo-ui-widget-enabled.oo-ui-flaggedElement-primary.oo-ui-flaggedElement-progressive > .oo-ui-buttonElement-button:active:focus,
+.oo-ui-buttonElement-framed.oo-ui-widget-enabled.oo-ui-flaggedElement-primary.oo-ui-flaggedElement-progressive.oo-ui-buttonElement-pressed > .oo-ui-buttonElement-button,
+.oo-ui-buttonElement-framed.oo-ui-widget-enabled.oo-ui-flaggedElement-primary.oo-ui-flaggedElement-progressive.oo-ui-buttonElement-active > .oo-ui-buttonElement-button,
+.oo-ui-buttonElement-framed.oo-ui-widget-enabled.oo-ui-flaggedElement-primary.oo-ui-flaggedElement-progressive.oo-ui-popupToolGroup-active > .oo-ui-buttonElement-button,
+.oo-ui-buttonElement-framed.oo-ui-widget-enabled > .oo-ui-buttonElement-button, .oo-ui-buttonElement.oo-ui-labelElement > input.oo-ui-buttonElement-button,
+.oo-ui-buttonElement.oo-ui-labelElement > .oo-ui-buttonElement-button,
+.oo-ui-buttonElement-framed.oo-ui-widget-enabled.oo-ui-flaggedElement-primary.oo-ui-flaggedElement-progressive > .oo-ui-buttonElement-button {
+	display: inline-block;
+	text-transform: uppercase;
+	cursor: pointer;
+	border: 1px solid #ddd;
+	border-right: 1px solid #bbb;
+	border-bottom: 1px solid #aaa;
+	border-radius: 3px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+	padding: 0 0.7em;
+	overflow: visible;
+	color: #444;
+	font-size: 0.90em;
+	height: calc(2.1em);
+	line-height: 2em;
+	font-weight: 400;
+	background: #fff;
+	background-image: linear-gradient(to bottom,#e2e9f3 0%,#fff 70%);
+}
+.oo-ui-buttonElement-framed.oo-ui-widget-enabled.oo-ui-flaggedElement-primary.oo-ui-flaggedElement-progressive > .oo-ui-buttonElement-button:hover,
+.oo-ui-buttonElement-framed.oo-ui-widget-enabled > .oo-ui-buttonElement-button:hover,
+.oo-ui-buttonElement.oo-ui-labelElement > .oo-ui-buttonElement-button:hover {
+	color: #af6700;
+	text-decoration: none;
+	border: 1px solid #ddd;
+	border-left: 1px solid #bbb;
+	border-top: 1px solid #aaa;
+	box-shadow: -1px -1px 2px rgba(0,0,0,0.07), -1px -2px 4px rgba(255,255,255,0.33) inset;
+	background: #fff;
+	background-image: linear-gradient(to bottom,#fff 0%,#e2e9f3 70%);
+}
+
+/* Save Changes Button */
+#wpSave {
+	background: #557ea0;
+	color: #fff;
+	font-weight: bold;
+	border: 1px solid #558080;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+}
+#wpSave:hover {
+	color: #ffc187;
+	background: #557ea0;
+}
+
+/* Cancel button */
+.oo-ui-buttonElement.oo-ui-labelElement > .oo-ui-buttonElement-button {
+	line-height: 2em;
+}
+
+/* Other */
+.oo-ui-panelLayout-framed {
+	border: 1px solid #ddd;
+	background: #f0f4f7;
+}
+
+/* Inputs */
+.oo-ui-textInputWidget.oo-ui-widget-enabled input, .oo-ui-textInputWidget.oo-ui-widget-enabled textarea, .oo-ui-tagMultiselectWidget .oo-ui-tagMultiselectWidget-handle {
+	color: #222;
+	font: 83.33%/150% "Segoe UI","Helvetica Neue","Nimbus Sans L",Arial,"Liberation Sans",sans-serif;
+	background: #fff;
+	outline: none;
+	border: 1px solid #bbb;
+	vertical-align: middle;
+	border-radius: 3px;
+	box-shadow: 0 2px 5px rgba(0,0,0,0.05) inset;
+	padding: 0.3em 0.4em;
+}
+.oo-ui-textInputWidget.oo-ui-widget-enabled input:hover, .oo-ui-textInputWidget.oo-ui-widget-enabled textarea:hover, .oo-ui-tagMultiselectWidget .oo-ui-tagMultiselectWidget-handle:hover {
+	outline: none;
+	border: 1px solid #999;
+}
+.oo-ui-textInputWidget.oo-ui-widget-enabled input:focus, .oo-ui-textInputWidget.oo-ui-widget-enabled textarea:focus, .oo-ui-tagMultiselectWidget-focus .oo-ui-tagMultiselectWidget-handle {
+	outline: none;
+	border: 1px solid #999;
+	box-shadow: 0 2px 5px rgba(0,0,0,0.1) inset !important;
+}
+.oo-ui-tagMultiselectWidget-handle > .oo-ui-tagMultiselectWidget-content .oo-ui-tagMultiselectWidget-group:empty + input {
+	margin-top: 0;
+}
+.oo-ui-textInputWidget.oo-ui-widget-enabled input {
+	padding: 6px 0.4em;
+	height: auto;
+}
+.oo-ui-tagItemWidget.oo-ui-widget-enabled {
+	margin-top: 0;
+	background: #6d90ad;
+	border-radius: 2px;
+	color: #fff;
+	height: auto;
+	line-height: 20px;
+}
+.oo-ui-draggableElement-handle:not(.oo-ui-draggableElement-undraggable).oo-ui-widget {
+	color: #fff;
+	background: #6d90ad;
+	border: 0;
+}
+.oo-ui-draggableElement-handle:not(.oo-ui-draggableElement-undraggable).oo-ui-widget:hover {
+	background: #fff;
+	color: #000;
+}
+.oo-ui-tagItemWidget.oo-ui-widget-enabled:hover > .oo-ui-buttonElement {
+	filter: unset;
+}
+.oo-ui-tagItemWidget.oo-ui-widget-enabled>span {
+	vertical-align: middle;
+}
+.oo-ui-tagItemWidget.oo-ui-widget-enabled > .oo-ui-buttonElement {
+	filter: invert(1);
+	padding: 0px 4px;
+}
+
+/* Search bar padding */
+.oo-ui-textInputWidget-type-search input {
+	padding-left: 3em !important;
+}
+
+input.mw-ui-input {
+	height: auto;
+	padding: 5px 8px;
+}
