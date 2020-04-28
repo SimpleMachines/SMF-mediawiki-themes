@@ -4,12 +4,16 @@
 This is Mediawiki Skin based on Curve for SMF development repository.
 Parts of this theme are licensed under [BSD 3-clause license](http://www.opensource.org/licenses/BSD-3-Clause), Others are [GPL](http://www.gnu.org/copyleft/gpl.html)
 
+#### Versions
+* **1.x**: Compatible with SMF2.0
+* **2.x**: Compatible with SMF2.1
+
 #### Branches organization:
-* ***master*** - is the main branch, supporting MediaWiki 1.31+
+* ***master*** - main branch, v2.0 (smfCurve2) compatible with SMF2.1, Supporting MediaWiki 1.31+
 * ***1.0*** - for old MediaWiki installs (Prior to 1.23)
 * ***1.1*** - for MediaWiki 1.23 (LTS)
-* ***1.2*** - for MediaWiki 1.25+
-* ***1.3*** - for MediaWiki 1.27 (LTS)
+* ***1.2*** - for MediaWiki 1.25+ -
+* ***1.3*** - for MediaWiki 1.27 (LTS) - (SMF2.0)
 
 [Installing](https://github.com/SimpleMachines/smfcurve/wiki/Installing) - [Upgrading](https://github.com/SimpleMachines/smfcurve/wiki/Upgrading)
 
