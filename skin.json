@@ -18,9 +18,37 @@
 			"i18n"
 		]
 	},
+	"ResourceModules": {
+		"skins.smfcurve": {
+			"targets": [ "desktop", "mobile" ],
+			"class": "ResourceLoaderSkinModule",
+			"styles": {
+				"css/main.css": {
+					"media": "screen"
+				},
+				"css/responsive.css": {
+					"media": "screen"
+				},
+				"css/mw.css": {
+					"media": "screen"
+				}
+			}
+		},
+		"skins.smfcurve.js": {
+			"targets": [ "desktop", "mobile" ],
+			"scripts": [
+				"scripts/main.js"
+			]
+		}
+	},
 	"ResourceFileModulePaths": {
 		"localBasePath": "",
 		"remoteSkinPath": "smfCurve"
+	},
+	"ResourceModuleSkinStyles": {
+		"smfcurve2": {
+			"+oojs-ui-core.styles": "css/ooui.css"
+		}
 	},
 	"AutoloadClasses": {
 		"SkinsmfCurve": "smfCurveTemplate.php",
