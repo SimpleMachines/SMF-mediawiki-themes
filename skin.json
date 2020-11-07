@@ -19,13 +19,13 @@
 			"targets": [ "desktop", "mobile" ],
 			"class": "ResourceLoaderSkinModule",
 			"styles": {
-				"css/main.css": {
+				"resources/css/main.css": {
 					"media": "screen"
 				},
-				"css/responsive.css": {
+				"resources/css/responsive.css": {
 					"media": "screen"
 				},
-				"css/mw.css": {
+				"resources/css/mw.css": {
 					"media": "screen"
 				}
 			}
@@ -33,7 +33,7 @@
 		"skins.smfcurve2.js": {
 			"targets": [ "desktop", "mobile" ],
 			"scripts": [
-				"scripts/main.js"
+				"resources/scripts/main.js"
 			]
 		}
 	},
@@ -43,12 +43,26 @@
 	},
 	"ResourceModuleSkinStyles": {
 		"smfcurve2": {
-			"+oojs-ui-core.styles": "css/ooui.css"
+			"+oojs-ui-core.styles": "resources/css/ooui.css"
 		}
 	},
 	"AutoloadClasses": {
-		"SkinsmfCurve2": "smfCurve2Template.php",
-		"smfCurve2Template": "smfCurve2Template.php"
+		"Skinsmfcurve2": "includes/smfCurve2Template.php",
+		"smfCurve2Template": "includes/smfCurve2Template.php"
+	},
+	"config": {
+		"smfRoot": {
+			"value": ""
+		},
+		"showSMFmenu": {
+			"value": false
+		},
+		"useLogoImage": {
+			"value": true
+		},
+		"useSideSearchBox": {
+			"value": true
+		}
 	},
 	"manifest_version": 1
 }

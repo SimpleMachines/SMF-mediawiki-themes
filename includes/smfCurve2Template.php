@@ -91,24 +91,52 @@ class smfcurve2Template extends BaseTemplate
 	var $skin;
 
 	/* SMF Menu Bar, change to true to show. */
-	var $showSMFmenu = false;
+	private $showSMFmenu = false;
 
 	// Use a logo or plain text ?
-	var $useLogoImage = true;
+	private $useLogoImage = true;
+
 	// Use another search box placed on the sidebar ?
 	var $useSideSearchBox = true;
+
+	// The current action.
+	private $currentAction = false;
+
+	/**
+	 * @return Config
+	 */
+	private function getConfig() {
+		return $this->config;
+	}
+
+	/**
+	 * Setup customizations
+	 */
+	private function setupCustomization()
+	{
+		global $wgRequest;
+
+		$ssi = $this->getConfig()->get('smfRoot')['value'];
+		if (!empty($ssi) && file_exists($ssi . '/SSI.php'))
+			require_once($ssi . '/SSI.php');
+
+		$this->showSMFmenu = $this->getConfig()->get('showSMFmenu')['value'];
+		$this->useLogoImage = $this->getConfig()->get('useLogoImage')['value'];
+		$this->useSideSearchBox = $this->getConfig()->get('useSideSearchBox')['value'];
+
+		$this->skin = $skin = $this->data['skin'];
+
+		$this->currentAction = $wgRequest->getText('action');
+
+		$this->html('headelement');
+	}
 
 	/**
 	 * Outputs the entire contents of the page
 	 */
 	public function execute()
 	{
-		global $wgRequest, $imagesurl;
-
-		$this->skin = $skin = $this->data['skin'];
-		$action = $wgRequest->getText('action');
-
-		$this->html('headelement');
+		$this->setupCustomization();
 
 		echo '
 		<div id="footerfix">';
@@ -169,7 +197,7 @@ class smfcurve2Template extends BaseTemplate
 											*/
 											echo '
 											<li id="', Sanitizer::escapeId('ca-' . $key), '"', (!empty($tab['class']) ? ' class="' . htmlspecialchars($tab['class']) . '"' : ''), '>
-												<a href="', htmlspecialchars($tab['href']), '"', (in_array($action, array('edit', 'submit')) && in_array($key, array('edit', 'watch', 'unwatch' )) ), ' class="firstlevel', $tab['class'] == 'selected' ? ' active' : '', '"><span class="generic_icons ', Sanitizer::escapeId($key), '"></span><span class="firstlevel">'.htmlspecialchars($tab['text']).'</span></a>
+												<a href="', htmlspecialchars($tab['href']), '"', (in_array($this->currentAction, array('edit', 'submit')) && in_array($key, array('edit', 'watch', 'unwatch' )) ), ' class="firstlevel', $tab['class'] == 'selected' ? ' active' : '', '"><span class="generic_icons ', Sanitizer::escapeId($key), '"></span><span class="firstlevel">'.htmlspecialchars($tab['text']).'</span></a>
 											</li>';
 										}
 										echo '

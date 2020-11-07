@@ -1302,6 +1302,9 @@ h1.forumtitle a {
 #genericmenu > .popup_container {
 	z-index: 1;
 }
+#genericmenu > #mobile_generic_menu_main {
+	z-index: 2;
+}
 #main_menu .popup_container, #genericmenu > .popup_container {
 	display: block;
 	position: relative;
