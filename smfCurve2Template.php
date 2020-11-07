@@ -116,8 +116,7 @@ class smfcurve2Template extends BaseTemplate
 			echo '
 			<div id="top_section">
 				<div class="inner_wrap">
-					', $this->userMenu(), '
-					', $this->quickSearch(), '
+					', $this->customTopSection(), '
 				</div>
 			</div>
 			<!-- #top_section -->
@@ -303,7 +302,10 @@ class smfcurve2Template extends BaseTemplate
 		</div>
 		<!-- #footerfix -->';
 
-		Hooks::run( 'smfCurve2BeforeFooter' );
+		Hooks::run( 'smfcurve2BeforeFooter' );
+
+		if (method_exists($this, 'customPagePreFooter'))
+			$this->customPagePreFooter();
 
 		echo '
 		<div id="footer">
@@ -361,24 +363,29 @@ class smfcurve2Template extends BaseTemplate
 	/**
 	 * User Menu
 	 */
-	public function userMenu()
+	public function userMenu($limitUrls = [], $inverseLimit = false, $menuID = 'u')
 	{
 		echo '
-		<a class="menu_icon mobile_generic_menu_u"></a>
+		<a class="menu_icon mobile_generic_menu_', $menuID, '"></a>
 		<div id="genericmenu">
-			<div id="mobile_generic_menu_u" class="popup_container">
+			<div id="mobile_generic_menu_', $menuID, '" class="popup_container">
 				<div class="popup_window description">
 					<div class="popup_heading">
 						', $this->getMsg('smfcurve2-user-menu')->text(), '
-						<a href="javascript:void(0);" class="generic_icons delete hide_popUp_u"></a>
+						<a href="javascript:void(0);" class="generic_icons delete hide_popUp_', $menuID, '"></a>
 					</div>
 					<div class="genericmenu">
-						<ul', $this->html('userlangattributes') , ' class="floatleft dropmenu dropmenu_menu_u" id="top_info">';
+						<ul', $this->html('userlangattributes') , ' class="floatleft dropmenu dropmenu_menu_', $menuID, '" id="top_info">';
 
 						foreach ($this->data['personal_urls'] as $key => $item)
 						{
+							if (!empty($limitUrls) && empty($inverseLimit) && !in_array($key, $limitUrls))
+								continue;
+							elseif (!empty($limitUrls) && !empty($inverseLimit) && in_array($key, $limitUrls))
+								continue;
+
 							echo '
-							<li id="', Sanitizer::escapeId('pt-' . $key), '"', ($item['active'] ? ' class="active"' : ''), '>
+							<li data-key="', $key, '" id="', Sanitizer::escapeId('pt-' . $key), '"', ($item['active'] ? ' class="active"' : ''), '>
 								<a href="', htmlspecialchars($item['href']) , '"', (!empty($item['class']) ? ' class="' . htmlspecialchars($item['class']) . '"' : ''), '><span class="generic_icons '.Sanitizer::escapeId($key).'"></span><span class="pt-itemText">', htmlspecialchars($item['text']), '</span></a>
 							</li>';
 						}
@@ -572,6 +579,15 @@ class smfcurve2Template extends BaseTemplate
 
 			</div>
 		</div>';
+	}
+
+	/*
+		The custom top section
+	*/
+	function customTopSection()
+	{
+		$this->userMenu();
+		$this->quickSearch();
 	}
 
 	/**

@@ -1,5 +1,5 @@
 {
-	"name": "smfCurve2",
+	"name": "SMF 2.1 Curve2",
 	"author": "Simple Machines Forum Team",
 	"url": "https://www.simplemachines.org",
 	"descriptionmsg": "smfCurve2-desc",
@@ -7,7 +7,7 @@
 	"license-name": "BSD 3-clause",
 	"type": "skin",
 	"ValidSkinNames": {
-		"smfcurve2": "smfCurve2"
+		"smfcurve2": "smfcurve2"
 	},
 	"MessagesDirs": {
 		"smfCurve2": [
@@ -39,7 +39,7 @@
 	},
 	"ResourceFileModulePaths": {
 		"localBasePath": "",
-		"remoteSkinPath": "smfCurve2"
+		"remoteSkinPath": "smfcurve2"
 	},
 	"ResourceModuleSkinStyles": {
 		"smfcurve2": {
