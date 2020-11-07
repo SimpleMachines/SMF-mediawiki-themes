@@ -52,16 +52,20 @@
 	},
 	"config": {
 		"smfRoot": {
-			"value": ""
+			"value": "",
+			"description": "@var string Path to SMF Root, without the trailing slash (/).  For us with showing the menu and/or logo."
 		},
 		"showSMFmenu": {
-			"value": false
+			"value": false,
+			"description": "@var boolean Show the SMF Main Menu."
 		},
 		"useLogoImage": {
-			"value": true
+			"value": true,
+			"description": "@var boolean Use the SMF Forum Logo."
 		},
 		"useSideSearchBox": {
-			"value": true
+			"value": true,
+			"description": "@var boolean Enable the use of the search in the side menu."
 		}
 	},
 	"manifest_version": 1
