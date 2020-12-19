@@ -545,7 +545,7 @@ class smfcurve2Template extends BaseTemplate
 					echo '
 					<li id="t-permalink">
 						<a href="', htmlspecialchars($this->data['nav_urls']['permalink']['href']), '"','>', $this->getMsg('permalink')->text(), '</a></li>';
-				elseif ($this->data['nav_urls']['permalink']['href'] === '')
+				elseif (empty($this->data['nav_urls']['permalink']['href']))
 					echo '
 					<li id="t-ispermalink">', $this->getMsg('permalink')->text(), '</li>';
 
