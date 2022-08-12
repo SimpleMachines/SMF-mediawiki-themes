@@ -2,15 +2,34 @@
 	"name": "SMF 2.1 Curve2",
 	"author": "Simple Machines Forum Team",
 	"url": "https://www.simplemachines.org",
-	"descriptionmsg": "smfCurve2-desc",
-	"namemsg": "skinname-smfCurve2",
+	"descriptionmsg": "smfcurve2-desc",
+	"namemsg": "skinname-smfcurve2",
 	"license-name": "BSD 3-clause",
 	"type": "skin",
+	"requires": {
+		"MediaWiki": ">= 1.38"
+	},
 	"ValidSkinNames": {
-		"smfcurve2": "smfcurve2"
+		"smfcurve2": {
+			"displayname": "smfcurve2",
+			"class": "MediaWiki\\Skin\\smfcurve2\\Skinsmfcurve2",
+			"args": [
+				{
+					"name": "smfcurve2",
+					"template": "MediaWiki\\Skin\\smfcurve2\\smfcurve2Template",
+					"responsive": true,
+					"styles": [
+						"skins.smfcurve2"
+					],
+					"scripts": [
+						"skins.smfcurve2.js"
+					]
+				}
+			]
+		}
 	},
 	"MessagesDirs": {
-		"smfCurve2": [
+		"smfcurve2": [
 			"i18n"
 		]
 	},
@@ -46,9 +65,8 @@
 			"+oojs-ui-core.styles": "resources/css/ooui.css"
 		}
 	},
-	"AutoloadClasses": {
-		"Skinsmfcurve2": "includes/smfCurve2Template.php",
-		"smfCurve2Template": "includes/smfCurve2Template.php"
+	"AutoloadNamespaces": {
+		"MediaWiki\\Skin\\smfcurve2\\": "includes/"
 	},
 	"config": {
 		"smfRoot": {

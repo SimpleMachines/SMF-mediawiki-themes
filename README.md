@@ -1,20 +1,20 @@
 ## smfCurve - Curve Skin for MediaWiki
 
-
 This is Mediawiki Skin based on Curve for SMF development repository.
-Parts of this theme are licensed under [BSD 3-clause license](http://www.opensource.org/licenses/BSD-3-Clause), Others are [GPL](http://www.gnu.org/copyleft/gpl.html)
+Parts of this theme are licensed under [BSD 3-clause license](https://www.opensource.org/licenses/BSD-3-Clause), Others are [GPL](https://www.gnu.org/copyleft/gpl.html)
 
 #### Versions
 * **1.x**: Compatible with SMF2.0
 * **2.x**: Compatible with SMF2.1
 
 #### Branches organization:
-* ***master*** - main branch, v2.0 (smfCurve2) compatible with **SMF2.1**, Supporting MediaWiki 1.31+
+* ***master*** - main branch, v2.0 (smfCurve2) compatible with **SMF2.1**, Supporting MediaWiki 1.38+
+* ***2.0*** - main branch, v2.0 (smfCurve2) compatible with **SMF2.1**, Supporting MediaWiki 1.31-1.35
 * ***1.0*** - for old MediaWiki installs (Prior to 1.23)
 * ***1.1*** - for MediaWiki 1.23 (LTS)
 * ***1.2*** - for MediaWiki 1.25+
 * ***1.3*** - for MediaWiki 1.27 (LTS)
-* ***1.4*** - for MediaWiki 1.31+
+* ***1.4*** - for MediaWiki 1.31-1.35 (LTS)
 
 [Installing](https://github.com/SimpleMachines/smfcurve/wiki/Installing) - [Upgrading](https://github.com/SimpleMachines/smfcurve/wiki/Upgrading)
 
@@ -24,26 +24,6 @@ Feel free to fork this repository and make your desired changes.
 
 Please see the [Developer's Certificate of Origin](https://github.com/SimpleMachines/smfcurve/blob/master/DCO.txt) in the repository:
 by signing off your contributions, you acknowledge that you can and do license your submissions under the license of the project.
-
-#### Important Note for v1.1
-This version is valid for MediaWiki 1.23 and later releases, version 1.0 is for 1.22 and before.
-This version is for fixing compatibility issue with 1.23.x.
-To install this skin;
-* Download version 1.1
-* Unzip the file rename to smfcurve
-* Copy it into skins folder
-* Open your LocalSettings.php file and add the following line to the end of the file
-
-> require_once "$IP/skins/smfcurve/smfcurve.php";
-
-If you are upgrading from 1.0;
-* Download version 1.1
-* Unzip the file rename to smfcurve
-* Delete smfcurve folder - smfcurve.php and smfcurve.deps.php
-* Copy your newly downloaded folder to skins folder
-* Open your LocalSettings.php file and add the following line to the end of the file
-
-> require_once "$IP/skins/smfcurve/smfcurve.php";
 
 #### How to contribute:
 * fork the repository. If you are not used to Github, please check out [fork a repository](http://help.github.com/fork-a-repo).

@@ -15,16 +15,30 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- * http://www.gnu.org/copyleft/gpl.html
+ * https://www.gnu.org/copyleft/gpl.html
  *
- * Copyright 2018, Simple Machines and Individual Contributors
+ * Copyright 2022, Simple Machines and Individual Contributors
  *
  * Based On smfcurve by Labradoodle-360
  *
  * Images under separate license
- * @license http://www.simplemachines.org/about/smf/license.php BSD
+ * @license https://www.simplemachines.org/about/smf/license.php BSD
  */
 
+namespace MediaWiki\Skin\smfcurve2;
+
+use BaseTemplate;
+use File;
+use Html;
+use Linker;
+use MediaWiki\MediaWikiServices;
+use MWDebug;
+use ResourceLoaderSkinModule;
+use Sanitizer;
+use SpecialPage;
+use Xml;
+use Hooks;
+Use RequestContext;
 
 /** 
  * If you wish to add your SMF forum's Menu bar :
@@ -33,74 +47,26 @@
  * Correct the path to the SSI.php file located in the SMF software directory.
  * And Set $showSMFmenu to true in line 94
  */
-
 //	require_once("path/to/SSI.php");
-
-
-if (!defined('MEDIAWIKI'))
-	die(-1);
-
-class Skinsmfcurve2 extends SkinTemplate
-{	
-	/**
-	 * @param OutputPage $out
-	 */
-	public function initPage(OutputPage $out)
-	{
-		parent::initPage($out);
-
-		$this->skinname = 'smfcurve2';
-		$this->stylename = 'smfcurve2';
-		$this->template = 'smfcurve2Template';
-		$this->useHeadElement = true;
-
-		// We want it responsive
-		$out->addMeta( 'viewport',
-			'width=device-width, initial-scale=1.0, ' .
-			'user-scalable=yes, minimum-scale=0.25, maximum-scale=5.0'
-		);
-
-		// CSS & Less Files
-		$out->addModuleStyles( [
-			'mediawiki.skinning.content.externallinks',
-			'skins.smfcurve2'
-		] );
-
-		// Right to left ?
-		$out->addStyle('smfcurve2/css/rtl.css', 'screen', '', 'rtl');
-
-		// Load other scripts
-		$out->addModules( [
-			'skins.smfcurve2.js'
-		] );
-
-	}
-
-	/**
-	 * Add CSS via ResourceLoader
-	 *
-	 * @param OutputPage $out
-	 */
-	function setupSkinUserCss( OutputPage $out ) {
-		parent::setupSkinUserCss( $out );
-	}
-}
-
 class smfcurve2Template extends BaseTemplate
 {
-	var $skin;
+	/** @var array */
+	protected $pileOfTools;
 
-	/* SMF Menu Bar, change to true to show. */
-	private $showSMFmenu = false;
+	/** @var (array|false)[] */
+	protected $sidebar;
 
-	// Use a logo or plain text ?
-	private $useLogoImage = true;
+	/** @var array|null */
+	protected $otherProjects;
 
-	// Use another search box placed on the sidebar ?
-	var $useSideSearchBox = true;
+	/** @var array|null */
+	protected $collectionPortlet;
 
-	// The current action.
-	private $currentAction = false;
+	/** @var array[] */
+	protected $languages;
+
+	/** @var string */
+	protected $afterLangPortlet;
 
 	/**
 	 * @return Config
@@ -196,8 +162,8 @@ class smfcurve2Template extends BaseTemplate
 												used for editing in Safari.
 											*/
 											echo '
-											<li id="', Sanitizer::escapeId('ca-' . $key), '"', (!empty($tab['class']) ? ' class="' . htmlspecialchars($tab['class']) . '"' : ''), '>
-												<a href="', htmlspecialchars($tab['href']), '"', (in_array($this->currentAction, array('edit', 'submit')) && in_array($key, array('edit', 'watch', 'unwatch' )) ), ' class="firstlevel', $tab['class'] == 'selected' ? ' active' : '', '"><span class="generic_icons ', Sanitizer::escapeId($key), '"></span><span class="firstlevel">'.htmlspecialchars($tab['text']).'</span></a>
+											<li id="', Sanitizer::escapeIdForAttribute('ca-' . $key), '"', (!empty($tab['class']) ? ' class="' . htmlspecialchars($tab['class']) . '"' : ''), '>
+												<a href="', htmlspecialchars($tab['href']), '"', (in_array($this->currentAction, array('edit', 'submit')) && in_array($key, array('edit', 'watch', 'unwatch' )) ), ' class="firstlevel', $tab['class'] == 'selected' ? ' active' : '', '"><span class="generic_icons ', Sanitizer::escapeIdForAttribute($key), '"></span><span class="firstlevel">'.htmlspecialchars($tab['text']).'</span></a>
 											</li>';
 										}
 										echo '
@@ -254,7 +220,7 @@ class smfcurve2Template extends BaseTemplate
 								break;
 
 							case 'TOOLBOX':
-								$this->buildBox('tb', $this->getToolbox(), 'toolbox', 'SkinTemplateToolboxEnd' );
+								$this->buildBox('tb', $this->get('sidebar')['TOOLBOX'], 'toolbox', 'SkinTemplateToolboxEnd' );
 								Hooks::run( 'smfCurve2AfterToolbox' );
 								break;
 
@@ -357,7 +323,7 @@ class smfcurve2Template extends BaseTemplate
 					</ul>
 					<ul class="footer-icons floatright">';
 
-					foreach($this->getFooterIcons('icononly') as $icon_groups => $icons) {
+					foreach($this->get('footericons') as $icon_groups => $icons) {
 						foreach($icons as $icon) {
 							echo'
 							<li ', !empty($icon) ? '' : 'class="hidden"', '>', $this->getSkin()->makeFooterIcon($icon) , '</li>';
@@ -413,8 +379,8 @@ class smfcurve2Template extends BaseTemplate
 								continue;
 
 							echo '
-							<li data-key="', $key, '" id="', Sanitizer::escapeId('pt-' . $key), '"', ($item['active'] ? ' class="active"' : ''), '>
-								<a href="', htmlspecialchars($item['href']) , '"', (!empty($item['class']) ? ' class="' . htmlspecialchars($item['class']) . '"' : ''), '><span class="generic_icons '.Sanitizer::escapeId($key).'"></span><span class="pt-itemText">', htmlspecialchars($item['text']), '</span></a>
+							<li data-key="', $key, '" id="', Sanitizer::escapeIdForAttribute('pt-' . $key), '"', ($item['active'] ? ' class="active"' : ''), '>
+								<a href="', htmlspecialchars($item['href']) , '"', (!empty($item['class']) ? ' class="' . htmlspecialchars($item['class']) . '"' : ''), '><span class="generic_icons '.Sanitizer::escapeIdForAttribute($key).'"></span><span class="pt-itemText">', htmlspecialchars($item['text']), '</span></a>
 							</li>';
 						}
 
@@ -473,7 +439,7 @@ class smfcurve2Template extends BaseTemplate
 
 		$output .= '
 				<input type="submit" name="fulltext" class="button" value="' . $this->getMsg('searchbutton')->text() . '"' . ' />
-				<a href="' . $this->get('searchaction') . '" rel="search" class="button">' . $this->getMsg('powersearch-legend')->text() . '</a>
+				<a href="' . SpecialPage::newSearchPage( RequestContext::getMain()->getUser() ) . '" rel="search" class="button">' . $this->getMsg('powersearch-legend')->text() . '</a>
 			</form>';
 
 		return $output;
@@ -523,7 +489,7 @@ class smfcurve2Template extends BaseTemplate
 					<li id="feedlinks">';
 					foreach($this->data['feeds'] as $key => $feed)
 						echo '
-						<a id="', Sanitizer::escapeId('feed-' . $key). '" href="', htmlspecialchars($feed['href']), '" rel="alternate" type="application/', $key, '+xml" class="feedlink"', '>', htmlspecialchars($feed['text']), '</a>&nbsp;';
+						<a id="', Sanitizer::escapeIdForAttribute('feed-' . $key). '" href="', htmlspecialchars($feed['href']), '" rel="alternate" type="application/', $key, '+xml" class="feedlink"', '>', htmlspecialchars($feed['text']), '</a>&nbsp;';
 					echo '
 					</li>';
 				}
@@ -659,5 +625,4 @@ class smfcurve2Template extends BaseTemplate
 			</div>';
 		}
 	}
-
 }

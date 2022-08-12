@@ -2,8 +2,8 @@
 	"@metadata": {
 		"authors": []
 	},
-	"skinname-smfCurve2": "smfCurve2",
-	"smfCurve-desc": "Simple Machines Forum's 2.1 default theme",
+	"skinname-smfcurve2": "smfcurve2",
+	"smfcurve-desc": "Simple Machines Forum's 2.1 default theme",
 	"smfcurve2-mobile-menu": "Main Menu",
 	"smfcurve2-user-menu": "User Menu",
 	"smfcurve2-mw-menu": "MediaWiki Menu",
