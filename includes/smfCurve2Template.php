@@ -93,8 +93,6 @@ class smfcurve2Template extends BaseTemplate
 		$this->skin = $skin = $this->data['skin'];
 
 		$this->currentAction = $wgRequest->getText('action');
-
-		$this->html('headelement');
 	}
 
 	/**
@@ -105,6 +103,7 @@ class smfcurve2Template extends BaseTemplate
 		$this->setupCustomization();
 
 		echo '
+		<!-- Start smfcuve2 -->
 		<div id="footerfix">';
 
 			echo '
@@ -189,6 +188,7 @@ class smfcurve2Template extends BaseTemplate
 
 				echo '
 				<div id="content_section">
+					<!-- #content_section .frame -->
 					<div class="frame">
 						<div id="main_content_section">
 							<div id="sleft-side" class="floatleft clear_left">
@@ -290,6 +290,8 @@ class smfcurve2Template extends BaseTemplate
 							</div>
 						</div>
 					</div>
+					<!-- #content_section .frame -->
+					<br class="clear">
 				</div>
 			</div>
 			<!-- #wrapper -->
@@ -343,15 +345,12 @@ class smfcurve2Template extends BaseTemplate
 		</div>
 		<!-- #footer -->';
 
-		// Debug Toolbar, scripts and stuff
-		$this->printTrail();
-
 		// Customization...
 		if (method_exists($this, 'customBodyLower'))
 			$this->customBodyLower();
 
 		echo '
-		</body></html>';
+		<!-- End smfcuve2 -->';
 	}
 
 	/**

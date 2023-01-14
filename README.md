@@ -8,7 +8,7 @@ Parts of this theme are licensed under [BSD 3-clause license](https://www.openso
 * **2.x**: Compatible with SMF2.1
 
 #### Branches organization:
-* ***master*** - main branch, v2.0 (smfCurve2) compatible with **SMF2.1**, Supporting MediaWiki 1.38+
+* ***master*** - main branch, v2.0 (smfCurve2) compatible with **SMF2.1**, Supporting MediaWiki 1.39+
 * ***2.0*** - main branch, v2.0 (smfCurve2) compatible with **SMF2.1**, Supporting MediaWiki 1.31-1.35
 * ***1.0*** - for old MediaWiki installs (Prior to 1.23)
 * ***1.1*** - for MediaWiki 1.23 (LTS)

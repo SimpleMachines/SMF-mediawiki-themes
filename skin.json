@@ -7,7 +7,7 @@
 	"license-name": "BSD 3-clause",
 	"type": "skin",
 	"requires": {
-		"MediaWiki": ">= 1.38"
+		"MediaWiki": ">= 1.39"
 	},
 	"ValidSkinNames": {
 		"smfcurve2": {
@@ -17,6 +17,7 @@
 				{
 					"name": "smfcurve2",
 					"template": "MediaWiki\\Skin\\smfcurve2\\smfcurve2Template",
+					"bodyOnly": true,
 					"responsive": true,
 					"styles": [
 						"skins.smfcurve2"
