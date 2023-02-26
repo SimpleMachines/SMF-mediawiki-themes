@@ -67,6 +67,13 @@ class smfcurve2Template extends BaseTemplate
 
 	/** @var string */
 	protected $afterLangPortlet;
+	protected $skin;
+	protected $currentAction;
+
+	/** @var bool */
+	protected $showSMFmenu = false;
+	protected $useLogoImage = false;
+	protected $useSideSearchBox = false;
 
 	/**
 	 * @return Config
