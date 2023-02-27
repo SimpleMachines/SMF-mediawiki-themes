@@ -15,16 +15,30 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- * http://www.gnu.org/copyleft/gpl.html
+ * https://www.gnu.org/copyleft/gpl.html
  *
- * Copyright 2018, Simple Machines and Individual Contributors
+ * Copyright 2022, Simple Machines and Individual Contributors
  *
  * Based On smfcurve by Labradoodle-360
  *
  * Images under separate license
- * @license http://www.simplemachines.org/about/smf/license.php BSD
+ * @license https://www.simplemachines.org/about/smf/license.php BSD
  */
 
+namespace MediaWiki\Skin\smfcurve2;
+
+use BaseTemplate;
+use File;
+use Html;
+use Linker;
+use MediaWiki\MediaWikiServices;
+use MWDebug;
+use ResourceLoaderSkinModule;
+use Sanitizer;
+use SpecialPage;
+use Xml;
+use Hooks;
+Use RequestContext;
 
 /** 
  * If you wish to add your SMF forum's Menu bar :
@@ -33,91 +47,76 @@
  * Correct the path to the SSI.php file located in the SMF software directory.
  * And Set $showSMFmenu to true in line 94
  */
-
 //	require_once("path/to/SSI.php");
-
-
-if (!defined('MEDIAWIKI'))
-	die(-1);
-
-class Skinsmfcurve2 extends SkinTemplate
-{	
-	/**
-	 * @param OutputPage $out
-	 */
-	public function initPage(OutputPage $out)
-	{
-		parent::initPage($out);
-
-		$this->skinname = 'smfcurve2';
-		$this->stylename = 'smfcurve2';
-		$this->template = 'smfcurve2Template';
-		$this->useHeadElement = true;
-
-		// We want it responsive
-		$out->addMeta( 'viewport',
-			'width=device-width, initial-scale=1.0, ' .
-			'user-scalable=yes, minimum-scale=0.25, maximum-scale=5.0'
-		);
-
-		// CSS & Less Files
-		$out->addModuleStyles( [
-			'mediawiki.skinning.content.externallinks',
-			'skins.smfcurve2'
-		] );
-
-		// Right to left ?
-		$out->addStyle('smfcurve2/css/rtl.css', 'screen', '', 'rtl');
-
-		// Load other scripts
-		$out->addModules( [
-			'skins.smfcurve2.js'
-		] );
-
-	}
-
-	/**
-	 * Add CSS via ResourceLoader
-	 *
-	 * @param OutputPage $out
-	 */
-	function setupSkinUserCss( OutputPage $out ) {
-		parent::setupSkinUserCss( $out );
-	}
-}
-
 class smfcurve2Template extends BaseTemplate
 {
-	var $skin;
+	/** @var array */
+	protected $pileOfTools;
 
-	/* SMF Menu Bar, change to true to show. */
-	var $showSMFmenu = false;
+	/** @var (array|false)[] */
+	protected $sidebar;
 
-	// Use a logo or plain text ?
-	var $useLogoImage = true;
-	// Use another search box placed on the sidebar ?
-	var $useSideSearchBox = true;
+	/** @var array|null */
+	protected $otherProjects;
+
+	/** @var array|null */
+	protected $collectionPortlet;
+
+	/** @var array[] */
+	protected $languages;
+
+	/** @var string */
+	protected $afterLangPortlet;
+	protected $skin;
+	protected $currentAction;
+
+	/** @var bool */
+	protected $showSMFmenu = false;
+	protected $useLogoImage = false;
+	protected $useSideSearchBox = false;
+
+	/**
+	 * @return Config
+	 */
+	private function getConfig() {
+		return $this->config;
+	}
+
+	/**
+	 * Setup customizations
+	 */
+	private function setupCustomization()
+	{
+		global $wgRequest;
+
+		$ssi = $this->getConfig()->get('smfRoot')['value'];
+		if (!empty($ssi) && file_exists($ssi . '/SSI.php'))
+			require_once($ssi . '/SSI.php');
+
+		$this->showSMFmenu = $this->getConfig()->get('showSMFmenu')['value'];
+		$this->useLogoImage = $this->getConfig()->get('useLogoImage')['value'];
+		$this->useSideSearchBox = $this->getConfig()->get('useSideSearchBox')['value'];
+
+		$this->skin = $skin = $this->data['skin'];
+
+		$this->currentAction = $wgRequest->getText('action');
+	}
 
 	/**
 	 * Outputs the entire contents of the page
 	 */
 	public function execute()
 	{
-		global $wgRequest, $imagesurl;
-
-		$this->skin = $skin = $this->data['skin'];
-		$action = $wgRequest->getText('action');
-
-		$this->html('headelement');
+		$this->setupCustomization();
 
 		echo '
+		<!-- Start smfcuve2 -->
 		<div id="footerfix">';
 
 			echo '
 			<div id="top_section">
 				<div class="inner_wrap">
-					', $this->userMenu(), '
-					', $this->quickSearch(), '
+					', $this->customTopSection(), '
 				</div>
 			</div>
 			<!-- #top_section -->
@@ -169,8 +168,8 @@ class smfcurve2Template extends BaseTemplate
 												used for editing in Safari.
 											*/
 											echo '
-											<li id="', Sanitizer::escapeId('ca-' . $key), '"', (!empty($tab['class']) ? ' class="' . htmlspecialchars($tab['class']) . '"' : ''), '>
-												<a href="', htmlspecialchars($tab['href']), '"', (in_array($action, array('edit', 'submit')) && in_array($key, array('edit', 'watch', 'unwatch' )) ), ' class="firstlevel', $tab['class'] == 'selected' ? ' active' : '', '"><span class="generic_icons ', Sanitizer::escapeId($key), '"></span><span class="firstlevel">'.htmlspecialchars($tab['text']).'</span></a>
+											<li id="', Sanitizer::escapeIdForAttribute('ca-' . $key), '"', (!empty($tab['class']) ? ' class="' . htmlspecialchars($tab['class']) . '"' : ''), '>
+												<a href="', htmlspecialchars($tab['href']), '"', (in_array($this->currentAction, array('edit', 'submit')) && in_array($key, array('edit', 'watch', 'unwatch' )) ), ' class="firstlevel', $tab['class'] == 'selected' ? ' active' : '', '"><span class="generic_icons ', Sanitizer::escapeIdForAttribute($key), '"></span><span class="firstlevel">'.htmlspecialchars($tab['text']).'</span></a>
 											</li>';
 										}
 										echo '
@@ -196,6 +195,7 @@ class smfcurve2Template extends BaseTemplate
 
 				echo '
 				<div id="content_section">
+					<!-- #content_section .frame -->
 					<div class="frame">
 						<div id="main_content_section">
 							<div id="sleft-side" class="floatleft clear_left">
@@ -227,7 +227,7 @@ class smfcurve2Template extends BaseTemplate
 								break;
 
 							case 'TOOLBOX':
-								$this->buildBox('tb', $this->getToolbox(), 'toolbox', 'SkinTemplateToolboxEnd' );
+								$this->buildBox('tb', $this->get('sidebar')['TOOLBOX'], 'toolbox', 'SkinTemplateToolboxEnd' );
 								Hooks::run( 'smfCurve2AfterToolbox' );
 								break;
 
@@ -297,13 +297,18 @@ class smfcurve2Template extends BaseTemplate
 							</div>
 						</div>
 					</div>
+					<!-- #content_section .frame -->
+					<br class="clear">
 				</div>
 			</div>
 			<!-- #wrapper -->
 		</div>
 		<!-- #footerfix -->';
 
-		Hooks::run( 'smfCurve2BeforeFooter' );
+		Hooks::run( 'smfcurve2BeforeFooter' );
+
+		if (method_exists($this, 'customPagePreFooter'))
+			$this->customPagePreFooter();
 
 		echo '
 		<div id="footer">
@@ -327,7 +332,7 @@ class smfcurve2Template extends BaseTemplate
 					</ul>
 					<ul class="footer-icons floatright">';
 
-					foreach($this->getFooterIcons('icononly') as $icon_groups => $icons) {
+					foreach($this->get('footericons') as $icon_groups => $icons) {
 						foreach($icons as $icon) {
 							echo'
 							<li ', !empty($icon) ? '' : 'class="hidden"', '>', $this->getSkin()->makeFooterIcon($icon) , '</li>';
@@ -347,39 +352,41 @@ class smfcurve2Template extends BaseTemplate
 		</div>
 		<!-- #footer -->';
 
-		// Debug Toolbar, scripts and stuff
-		$this->printTrail();
-
 		// Customization...
 		if (method_exists($this, 'customBodyLower'))
 			$this->customBodyLower();
 
 		echo '
-		</body></html>';
+		<!-- End smfcuve2 -->';
 	}
 
 	/**
 	 * User Menu
 	 */
-	public function userMenu()
+	public function userMenu($limitUrls = [], $inverseLimit = false, $menuID = 'u')
 	{
 		echo '
-		<a class="menu_icon mobile_generic_menu_u"></a>
+		<a class="menu_icon mobile_generic_menu_', $menuID, '"></a>
 		<div id="genericmenu">
-			<div id="mobile_generic_menu_u" class="popup_container">
+			<div id="mobile_generic_menu_', $menuID, '" class="popup_container">
 				<div class="popup_window description">
 					<div class="popup_heading">
 						', $this->getMsg('smfcurve2-user-menu')->text(), '
-						<a href="javascript:void(0);" class="generic_icons delete hide_popUp_u"></a>
+						<a href="javascript:void(0);" class="generic_icons delete hide_popUp_', $menuID, '"></a>
 					</div>
 					<div class="genericmenu">
-						<ul', $this->html('userlangattributes') , ' class="floatleft dropmenu dropmenu_menu_u" id="top_info">';
+						<ul', $this->html('userlangattributes') , ' class="floatleft dropmenu dropmenu_menu_', $menuID, '" id="top_info">';
 
 						foreach ($this->data['personal_urls'] as $key => $item)
 						{
+							if (!empty($limitUrls) && empty($inverseLimit) && !in_array($key, $limitUrls))
+								continue;
+							elseif (!empty($limitUrls) && !empty($inverseLimit) && in_array($key, $limitUrls))
+								continue;
+
 							echo '
-							<li id="', Sanitizer::escapeId('pt-' . $key), '"', ($item['active'] ? ' class="active"' : ''), '>
-								<a href="', htmlspecialchars($item['href']) , '"', (!empty($item['class']) ? ' class="' . htmlspecialchars($item['class']) . '"' : ''), '><span class="generic_icons '.Sanitizer::escapeId($key).'"></span><span class="pt-itemText">', htmlspecialchars($item['text']), '</span></a>
+							<li data-key="', $key, '" id="', Sanitizer::escapeIdForAttribute('pt-' . $key), '"', ($item['active'] ? ' class="active"' : ''), '>
+								<a href="', htmlspecialchars($item['href']) , '"', (!empty($item['class']) ? ' class="' . htmlspecialchars($item['class']) . '"' : ''), '><span class="generic_icons '.Sanitizer::escapeIdForAttribute($key).'"></span><span class="pt-itemText">', htmlspecialchars($item['text']), '</span></a>
 							</li>';
 						}
 
@@ -438,7 +445,7 @@ class smfcurve2Template extends BaseTemplate
 
 		$output .= '
 				<input type="submit" name="fulltext" class="button" value="' . $this->getMsg('searchbutton')->text() . '"' . ' />
-				<a href="' . $this->get('searchaction') . '" rel="search" class="button">' . $this->getMsg('powersearch-legend')->text() . '</a>
+				<a href="' . SpecialPage::newSearchPage( RequestContext::getMain()->getUser() ) . '" rel="search" class="button">' . $this->getMsg('powersearch-legend')->text() . '</a>
 			</form>';
 
 		return $output;
@@ -488,7 +495,7 @@ class smfcurve2Template extends BaseTemplate
 					<li id="feedlinks">';
 					foreach($this->data['feeds'] as $key => $feed)
 						echo '
-						<a id="', Sanitizer::escapeId('feed-' . $key). '" href="', htmlspecialchars($feed['href']), '" rel="alternate" type="application/', $key, '+xml" class="feedlink"', '>', htmlspecialchars($feed['text']), '</a>&nbsp;';
+						<a id="', Sanitizer::escapeIdForAttribute('feed-' . $key). '" href="', htmlspecialchars($feed['href']), '" rel="alternate" type="application/', $key, '+xml" class="feedlink"', '>', htmlspecialchars($feed['text']), '</a>&nbsp;';
 					echo '
 					</li>';
 				}
@@ -510,7 +517,7 @@ class smfcurve2Template extends BaseTemplate
 					echo '
 					<li id="t-permalink">
 						<a href="', htmlspecialchars($this->data['nav_urls']['permalink']['href']), '"','>', $this->getMsg('permalink')->text(), '</a></li>';
-				elseif ($this->data['nav_urls']['permalink']['href'] === '')
+				elseif (empty($this->data['nav_urls']['permalink']['href']))
 					echo '
 					<li id="t-ispermalink">', $this->getMsg('permalink')->text(), '</li>';
 
@@ -574,6 +581,15 @@ class smfcurve2Template extends BaseTemplate
 		</div>';
 	}
 
+	/*
+		The custom top section
+	*/
+	function customTopSection()
+	{
+		$this->userMenu();
+		$this->quickSearch();
+	}
+
 	/**
 	 * The One and only Logo
 	 */
@@ -615,5 +631,4 @@ class smfcurve2Template extends BaseTemplate
 			</div>';
 		}
 	}
-
 }

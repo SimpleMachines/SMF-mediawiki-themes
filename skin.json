@@ -1,16 +1,36 @@
 {
-	"name": "smfCurve2",
+	"name": "SMF 2.1 Curve2",
 	"author": "Simple Machines Forum Team",
 	"url": "https://www.simplemachines.org",
-	"descriptionmsg": "smfCurve2-desc",
-	"namemsg": "skinname-smfCurve2",
+	"descriptionmsg": "smfcurve2-desc",
+	"namemsg": "skinname-smfcurve2",
 	"license-name": "BSD 3-clause",
 	"type": "skin",
+	"requires": {
+		"MediaWiki": ">= 1.39"
+	},
 	"ValidSkinNames": {
-		"smfcurve2": "smfCurve2"
+		"smfcurve2": {
+			"displayname": "smfcurve2",
+			"class": "MediaWiki\\Skin\\smfcurve2\\Skinsmfcurve2",
+			"args": [
+				{
+					"name": "smfcurve2",
+					"template": "MediaWiki\\Skin\\smfcurve2\\smfcurve2Template",
+					"bodyOnly": true,
+					"responsive": true,
+					"styles": [
+						"skins.smfcurve2"
+					],
+					"scripts": [
+						"skins.smfcurve2.js"
+					]
+				}
+			]
+		}
 	},
 	"MessagesDirs": {
-		"smfCurve2": [
+		"smfcurve2": [
 			"i18n"
 		]
 	},
@@ -19,13 +39,13 @@
 			"targets": [ "desktop", "mobile" ],
 			"class": "ResourceLoaderSkinModule",
 			"styles": {
-				"css/main.css": {
+				"resources/css/main.css": {
 					"media": "screen"
 				},
-				"css/responsive.css": {
+				"resources/css/responsive.css": {
 					"media": "screen"
 				},
-				"css/mw.css": {
+				"resources/css/mw.css": {
 					"media": "screen"
 				}
 			}
@@ -33,22 +53,39 @@
 		"skins.smfcurve2.js": {
 			"targets": [ "desktop", "mobile" ],
 			"scripts": [
-				"scripts/main.js"
+				"resources/scripts/main.js"
 			]
 		}
 	},
 	"ResourceFileModulePaths": {
 		"localBasePath": "",
-		"remoteSkinPath": "smfCurve2"
+		"remoteSkinPath": "smfcurve2"
 	},
 	"ResourceModuleSkinStyles": {
 		"smfcurve2": {
-			"+oojs-ui-core.styles": "css/ooui.css"
+			"+oojs-ui-core.styles": "resources/css/ooui.css"
 		}
 	},
-	"AutoloadClasses": {
-		"SkinsmfCurve2": "smfCurve2Template.php",
-		"smfCurve2Template": "smfCurve2Template.php"
+	"AutoloadNamespaces": {
+		"MediaWiki\\Skin\\smfcurve2\\": "includes/"
+	},
+	"config": {
+		"smfRoot": {
+			"value": "",
+			"description": "@var string Path to SMF Root, without the trailing slash (/).  For us with showing the menu and/or logo."
+		},
+		"showSMFmenu": {
+			"value": false,
+			"description": "@var boolean Show the SMF Main Menu."
+		},
+		"useLogoImage": {
+			"value": true,
+			"description": "@var boolean Use the SMF Forum Logo."
+		},
+		"useSideSearchBox": {
+			"value": true,
+			"description": "@var boolean Enable the use of the search in the side menu."
+		}
 	},
 	"manifest_version": 1
 }

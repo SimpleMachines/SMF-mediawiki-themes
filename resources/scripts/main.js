@@ -1,5 +1,4 @@
 $(function () {
-	
 	// Top Section, User Tools
 	$( ".mobile_generic_menu_u" ).click(function() {
 		$( "#mobile_generic_menu_u" ).show();
@@ -23,5 +22,4 @@ $(function () {
 	$( ".hide_popUp_main" ).click(function() {
 		$( "#mobile_generic_menu_main" ).hide();
 	});
-	
-}());
+});

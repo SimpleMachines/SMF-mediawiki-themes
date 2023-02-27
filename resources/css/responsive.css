@@ -141,3 +141,9 @@
 		padding: 0 !important;
 	}
 }
+
+@media screen and (min-width: 481px) {
+	.popup_container {
+		display: block !important;
+	}
+}
