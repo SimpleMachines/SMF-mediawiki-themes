@@ -17,7 +17,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * https://www.gnu.org/copyleft/gpl.html
  *
- * Copyright 2022, Simple Machines and Individual Contributors
+ * Copyright 2023, Simple Machines and Individual Contributors
  *
  * Based On smfcurve by Labradoodle-360
  *
@@ -48,7 +48,7 @@ Use RequestContext;
  * And Set $showSMFmenu to true in line 94
  */
 //	require_once("path/to/SSI.php");
-class smfcurve2Template extends BaseTemplate
+class smfCurve2Template extends BaseTemplate
 {
 	/** @var array */
 	protected $pileOfTools;
@@ -78,7 +78,7 @@ class smfcurve2Template extends BaseTemplate
 	/**
 	 * @return Config
 	 */
-	private function getConfig() {
+	protected function getConfig() {
 		return $this->config;
 	}
 
@@ -89,13 +89,34 @@ class smfcurve2Template extends BaseTemplate
 	{
 		global $wgRequest;
 
-		$ssi = $this->getConfig()->get('smfRoot')['value'];
-		if (!empty($ssi) && file_exists($ssi . '/SSI.php'))
-			require_once($ssi . '/SSI.php');
+		// SMF's massive globals.
+		global $maintenance, $msubject, $mmessage, $mbname, $language;
+		global $boardurl, $boarddir, $sourcedir, $webmaster_email, $cookiename, $db_character_set;
+		global $db_type, $db_server, $db_name, $db_user, $db_prefix, $db_persist, $db_error_send, $db_last_error, $db_show_debug;
+		global $db_connection, $db_port, $modSettings, $context, $sc, $user_info, $topic, $board, $txt;
+		global $smcFunc, $ssi_db_user, $scripturl, $ssi_db_passwd, $db_passwd, $cache_enable, $cachedir;
+		global $auth_secret, $cache_accelerator, $cache_memcached;
 
-		$this->showSMFmenu = $this->getConfig()->get('showSMFmenu')['value'];
-		$this->useLogoImage = $this->getConfig()->get('useLogoImage')['value'];
-		$this->useSideSearchBox = $this->getConfig()->get('useSideSearchBox')['value'];
+		// Add to your LocalSettings: $wgsmfRoot = '';
+		// If you have the ForumSSoProvider installed you could do: $wgsmfRoot = $wgFSPPath;
+		$ssi = $this->getConfig()->get('smfRoot');
+		if (!empty($ssi) && is_string($ssi) && file_exists($ssi . '/SSI.php'))
+		{
+			include($ssi . '/Settings.php');
+			require_once($ssi . '/SSI.php');
+		}
+
+		// Add to your LocalSettings: $wgshowSMFmenu = true;
+		if (is_bool($this->getConfig()->get('showSMFmenu')))
+			$this->showSMFmenu = $this->getConfig()->get('showSMFmenu');
+
+		// Add to your LocalSettings: $wguseLogoImage = true;
+		if (is_bool($this->getConfig()->get('useLogoImage')))
+			$this->useLogoImage = $this->getConfig()->get('useLogoImage');
+
+		// Add to your LocalSettings: $wguseSideSearchBox = true;
+		if (is_bool($this->getConfig()->get('useSideSearchBox')))
+			$this->useSideSearchBox = $this->getConfig()->get('useSideSearchBox');
 
 		$this->skin = $skin = $this->data['skin'];
 
