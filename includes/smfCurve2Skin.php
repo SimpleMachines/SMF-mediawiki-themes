@@ -17,7 +17,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * https://www.gnu.org/copyleft/gpl.html
  *
- * Copyright 2022, Simple Machines and Individual Contributors
+ * Copyright 2023, Simple Machines and Individual Contributors
  *
  * Based On smfcurve by Labradoodle-360
  *
@@ -34,7 +34,7 @@ use SkinTemplate;
  *
  * @ingroup Skins
  */
-class Skinsmfcurve2 extends SkinTemplate
+class smfCurve2Skin extends SkinTemplate
 {	
 	/**
 	 * @inheritDoc

@@ -11,12 +11,12 @@
 	},
 	"ValidSkinNames": {
 		"smfcurve2": {
-			"displayname": "smfcurve2",
-			"class": "MediaWiki\\Skin\\smfcurve2\\Skinsmfcurve2",
+			"displayname": "SMF Curve 2",
+			"class": "MediaWiki\\Skin\\smfcurve2\\smfCurve2Skin",
 			"args": [
 				{
 					"name": "smfcurve2",
-					"template": "MediaWiki\\Skin\\smfcurve2\\smfcurve2Template",
+					"template": "MediaWiki\\Skin\\smfcurve2\\smfCurve2Template",
 					"bodyOnly": true,
 					"responsive": true,
 					"styles": [
@@ -24,6 +24,26 @@
 					],
 					"scripts": [
 						"skins.smfcurve2.js"
+					]
+				}
+			]
+		},
+		"smfcurve2custom": {
+			"displayname": "SMF Curve 2 Custom",
+			"class": "MediaWiki\\Skin\\smfcurve2\\smfCurve2SkinCustom",
+			"args": [
+				{
+					"name": "smfcurve2custom",
+					"template": "MediaWiki\\Skin\\smfcurve2\\smfCurve2TemplateCustom",
+					"bodyOnly": true,
+					"responsive": true,
+					"styles": [
+						"skins.smfcurve2",
+						"skins.smfcurve2custom"
+					],
+					"scripts": [
+						"skins.smfcurve2.js",
+						"skins.smfcurve2custom.js"
 					]
 				}
 			]
@@ -54,6 +74,21 @@
 			"targets": [ "desktop", "mobile" ],
 			"scripts": [
 				"resources/scripts/main.js"
+			]
+		},
+		"skins.smfcurve2custom": {
+			"targets": [ "desktop", "mobile" ],
+			"class": "ResourceLoaderSkinModule",
+			"styles": {
+				"resources/css/custom.css": {
+					"media": "screen"
+				}
+			}
+		},
+		"skins.smfcurve2custom.js": {
+			"targets": [ "desktop", "mobile" ],
+			"scripts": [
+				"resources/scripts/custom.js"
 			]
 		}
 	},

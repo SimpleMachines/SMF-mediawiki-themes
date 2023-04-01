@@ -1,0 +1,14 @@
+.align_right
+{
+	float: right;
+}
+
+#usermenuextra .genericmenu #top_info
+{
+	padding: 0;
+}
+
+#usermenuextra #pt-uls .uls-trigger
+{
+	padding-top: 0.2em !important;
+}
