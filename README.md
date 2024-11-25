@@ -7,13 +7,15 @@ Parts of this theme are licensed under [BSD 3-clause license](https://www.openso
 * **1.x**: Compatible with SMF2.0 [No longer actively developed]
 
 #### Branches organization:
-* ***master*** - main branch, v2.1 (smfCurve2) compatible with **SMF2.1**, Supporting MediaWiki 1.39+
-* ***2.0*** - main branch, v2.0 (smfCurve2) compatible with **SMF2.1**, Supporting MediaWiki 1.31-1.35
-* ***1.4*** - for MediaWiki 1.31-1.35 (LTS)
-* ***1.3*** - for MediaWiki 1.27 (LTS)
-* ***1.2*** - for MediaWiki 1.25+
-* ***1.1*** - for MediaWiki 1.23 (LTS)
-* ***1.0*** - for old MediaWiki installs (Prior to 1.23)
+| Version | MediaWiki  | SMF 2.0            | SMF 2.1            |
+| ------- | ---------- | ------------------ | ------------------ |
+| master  | 1.43 (LTS) | :white_check_mark: | :white_check_mark: |
+| 2.0     | 1.39 (LTS  | :white_check_mark: | :white_check_mark: |
+| 1.4     | 1.35 (LTS) | :white_check_mark: | :x:                |
+| 1.3     | 1.27 (LTS) | :white_check_mark: | :x:                |
+| 1.2     | 1.25       | :white_check_mark: | :x:                |
+| 1.1     | 1.23 (LTS) | :white_check_mark: | :x:                |
+| 1.0     | 1.23-      | :white_check_mark: | :x:                |
 
 #### Notes:
 Feel free to fork this repository and make your desired changes.

@@ -249,7 +249,7 @@ class smfCurve2Template extends BaseTemplate
 
 							case 'TOOLBOX':
 								$this->buildBox('tb', $this->get('sidebar')['TOOLBOX'], 'toolbox', 'SkinTemplateToolboxEnd' );
-								Hooks::run( 'smfCurve2AfterToolbox' );
+								(MediaWikiServices::getInstance()->getHookContainer())->run( 'smfCurve2AfterToolbox' );
 								break;
 
 							case 'LANGUAGES':
@@ -326,7 +326,7 @@ class smfCurve2Template extends BaseTemplate
 		</div>
 		<!-- #footerfix -->';
 
-		Hooks::run( 'smfcurve2BeforeFooter' );
+		(MediaWikiServices::getInstance()->getHookContainer())->run( 'smfcurve2BeforeFooter' );
 
 		if (method_exists($this, 'customPagePreFooter'))
 			$this->customPagePreFooter();
@@ -404,9 +404,11 @@ class smfCurve2Template extends BaseTemplate
 								continue;
 							elseif (!empty($limitUrls) && !empty($inverseLimit) && in_array($key, $limitUrls))
 								continue;
+							elseif (empty($item['href']))
+								continue;
 
 							echo '
-							<li data-key="', $key, '" id="', Sanitizer::escapeIdForAttribute('pt-' . $key), '"', ($item['active'] ? ' class="active"' : ''), '>
+							<li data-key="', $key, '" id="', Sanitizer::escapeIdForAttribute('pt-' . $key), '"', (!empty($item['active']) ? ' class="active"' : ''), '>
 								<a href="', htmlspecialchars($item['href']) , '"', (!empty($item['class']) ? ' class="' . htmlspecialchars($item['class']) . '"' : ''), '><span class="generic_icons '.Sanitizer::escapeIdForAttribute($key).'"></span><span class="pt-itemText">', htmlspecialchars($item['text']), '</span></a>
 							</li>';
 						}
@@ -542,7 +544,7 @@ class smfCurve2Template extends BaseTemplate
 					echo '
 					<li id="t-ispermalink">', $this->getMsg('permalink')->text(), '</li>';
 
-				Hooks::run('smfCurve2AfterToolboxEnd');
+				(MediaWikiServices::getInstance()->getHookContainer())->run('smfCurve2AfterToolboxEnd');
 
 				echo '
 				</ul>
@@ -587,7 +589,7 @@ class smfCurve2Template extends BaseTemplate
 					if ($hook !== null) {
 						// Avoid PHP 7.1 warning
 						$skin = $this;
-						Hooks::run($hook, [ &$skin, true ]);
+						(MediaWikiServices::getInstance()->getHookContainer())->run($hook, [ &$skin, true ]);
 					}
 
 					echo '
