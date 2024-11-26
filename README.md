@@ -9,8 +9,8 @@ Parts of this theme are licensed under [BSD 3-clause license](https://www.openso
 #### Branches organization:
 | Version | MediaWiki  | SMF 2.0            | SMF 2.1            |
 | ------- | ---------- | ------------------ | ------------------ |
-| master  | 1.43 (LTS) | :white_check_mark: | :white_check_mark: |
-| 2.0     | 1.39 (LTS  | :white_check_mark: | :white_check_mark: |
+| master  | 1.43 (LTS) | :x:                | :white_check_mark: |
+| 2.0     | 1.39 (LTS) | :x:                | :white_check_mark: |
 | 1.4     | 1.35 (LTS) | :white_check_mark: | :x:                |
 | 1.3     | 1.27 (LTS) | :white_check_mark: | :x:                |
 | 1.2     | 1.25       | :white_check_mark: | :x:                |

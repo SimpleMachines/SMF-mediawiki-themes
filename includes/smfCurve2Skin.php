@@ -28,6 +28,7 @@
 namespace MediaWiki\Skin\smfcurve2;
 
 use SkinTemplate;
+use OutputPage;
 
 /**
  * SkinTemplate class for the Timeless skin
@@ -35,14 +36,18 @@ use SkinTemplate;
  * @ingroup Skins
  */
 class smfCurve2Skin extends SkinTemplate
-{	
+{
+    public $skinname        = 'smfcurve2';
+    public $stylename       = 'smfcurve2';
+    public $template        = 'smfCurve2Template';
+    public $useHeadElement  = true;
+
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct(
-		array $options = []
-	) {
-		$out = $this->getOutput();
+    public function initPage(OutputPage $out)
+    {
+        parent::initPage($out);
 
 		// We want it responsive
 		$out->addMeta( 'viewport',
@@ -63,7 +68,5 @@ class smfCurve2Skin extends SkinTemplate
 		$out->addModules( [
 			'skins.smfcurve2.js'
 		] );
-
-		parent::__construct( $options );
-	}
+    }
 }

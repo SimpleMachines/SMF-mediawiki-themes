@@ -56,7 +56,6 @@
 	},
 	"ResourceModules": {
 		"skins.smfcurve2": {
-			"targets": [ "desktop", "mobile" ],
 			"class": "MediaWiki\\ResourceLoader\\SkinModule",
 			"features": [
 				"elements",
@@ -84,13 +83,11 @@
 			}
 		},
 		"skins.smfcurve2.js": {
-			"targets": [ "desktop", "mobile" ],
 			"scripts": [
 				"resources/scripts/main.js"
 			]
 		},
 		"skins.smfcurve2custom": {
-			"targets": [ "desktop", "mobile" ],
 			"class": "MediaWiki\\ResourceLoader\\SkinModule",
 			"features": [
 				"elements",
@@ -112,7 +109,6 @@
 			}
 		},
 		"skins.smfcurve2custom.js": {
-			"targets": [ "desktop", "mobile" ],
 			"scripts": [
 				"resources/scripts/custom.js"
 			]

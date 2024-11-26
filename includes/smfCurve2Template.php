@@ -393,7 +393,7 @@ class smfCurve2Template extends BaseTemplate
 				<div class="popup_window description">
 					<div class="popup_heading">
 						', $this->getMsg('smfcurve2-user-menu')->text(), '
-						<a href="javascript:void(0);" class="generic_icons delete hide_popUp_', $menuID, '"></a>
+						<a href="javascript:void(0);" class="main_icons delete hide_popUp_', $menuID, '"></a>
 					</div>
 					<div class="genericmenu">
 						<ul', $this->html('userlangattributes') , ' class="floatleft dropmenu dropmenu_menu_', $menuID, '" id="top_info">';
@@ -409,7 +409,7 @@ class smfCurve2Template extends BaseTemplate
 
 							echo '
 							<li data-key="', $key, '" id="', Sanitizer::escapeIdForAttribute('pt-' . $key), '"', (!empty($item['active']) ? ' class="active"' : ''), '>
-								<a href="', htmlspecialchars($item['href']) , '"', (!empty($item['class']) ? ' class="' . htmlspecialchars($item['class']) . '"' : ''), '><span class="generic_icons '.Sanitizer::escapeIdForAttribute($key).'"></span><span class="pt-itemText">', htmlspecialchars($item['text']), '</span></a>
+								<a href="', htmlspecialchars($item['href']) , '"', (!empty($item['class']) ? ' class="' . htmlspecialchars($item['class']) . '"' : ''), '><span class="main_icons '.Sanitizer::escapeIdForAttribute($key).'"></span><span class="pt-itemText">', htmlspecialchars($item['text']), '</span></a>
 							</li>';
 						}
 

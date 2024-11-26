@@ -28,6 +28,7 @@
 namespace MediaWiki\Skin\smfcurve2;
 
 use SkinTemplate;
+use OutputPage;
 
 /*
  * This is a sample of how to extend and modify the main template, without requiring changes to the main template.
@@ -35,10 +36,18 @@ use SkinTemplate;
 */
 class smfCurve2SkinCustom extends smfCurve2Skin
 {
-	public function __construct(
-		array $options = []
-	) {
-		$out = $this->getOutput();
+    public $skinname        = 'smfcurve2custom';
+    public $stylename       = 'smfcurve2custom';
+    public $template        = 'smfCurve2TemplateCustom';
+    public $useHeadElement  = true;
+
+	/**
+	 * @inheritDoc
+	 */
+    public function initPage(OutputPage $out)
+    {
+        parent::initPage($out);
+
 		/**
 		* Some shortcuts to more commonly used/needed methods.
 		* This is a incomplete list, see /includes/OutputPage.php for the complete list.
@@ -80,9 +89,15 @@ class smfCurve2SkinCustom extends smfCurve2Skin
 		 * 		@param string|string[] $classes One or more classes to add
 		 */
 
+		$out->addModuleStyles( [
+			'skins.smfcurve2custom'
+		] );
+
+		$out->addModules( [
+			'skins.smfcurve2custom.js'
+		] );
+
 		// Add some additional css.
 		$out->addStyle('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap', 'screen', '');
-
-		parent::__construct( $options );
 	}
 }
