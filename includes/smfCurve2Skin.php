@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SMF Curve 2
  *
@@ -27,8 +28,8 @@
 
 namespace MediaWiki\Skin\smfcurve2;
 
-use SkinTemplate;
 use OutputPage;
+use SkinTemplate;
 
 /**
  * SkinTemplate class for the Timeless skin
@@ -37,36 +38,37 @@ use OutputPage;
  */
 class smfCurve2Skin extends SkinTemplate
 {
-    public $skinname        = 'smfcurve2';
-    public $stylename       = 'smfcurve2';
-    public $template        = 'smfCurve2Template';
-    public $useHeadElement  = true;
+	public $skinname        = 'smfcurve2';
+	public $stylename       = 'smfcurve2';
+	public $template        = 'smfCurve2Template';
+	public $useHeadElement  = true;
 
 	/**
 	 * @inheritDoc
 	 */
-    public function initPage(OutputPage $out)
-    {
-        parent::initPage($out);
+	public function initPage(OutputPage $out)
+	{
+		parent::initPage($out);
 
 		// We want it responsive
-		$out->addMeta( 'viewport',
+		$out->addMeta(
+			'viewport',
 			'width=device-width, initial-scale=1.0, ' .
-			'user-scalable=yes, minimum-scale=0.25, maximum-scale=5.0'
+			'user-scalable=yes, minimum-scale=0.25, maximum-scale=5.0',
 		);
 
 		// CSS & Less Files
-		$out->addModuleStyles( [
+		$out->addModuleStyles([
 			'mediawiki.skinning.content.externallinks',
-			'skins.smfcurve2'
-		] );
+			'skins.smfcurve2',
+		]);
 
 		// Right to left ?
 		$out->addStyle('smfcurve2/css/rtl.css', 'screen', '', 'rtl');
 
 		// Load other scripts
-		$out->addModules( [
-			'skins.smfcurve2.js'
-		] );
-    }
+		$out->addModules([
+			'skins.smfcurve2.js',
+		]);
+	}
 }

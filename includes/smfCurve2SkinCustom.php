@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SMF Curve 2
  *
@@ -27,7 +28,6 @@
 
 namespace MediaWiki\Skin\smfcurve2;
 
-use SkinTemplate;
 use OutputPage;
 
 /*
@@ -36,19 +36,19 @@ use OutputPage;
 */
 class smfCurve2SkinCustom extends smfCurve2Skin
 {
-    public $skinname        = 'smfcurve2custom';
-    public $stylename       = 'smfcurve2custom';
-    public $template        = 'smfCurve2TemplateCustom';
-    public $useHeadElement  = true;
+	public $skinname        = 'smfcurve2custom';
+	public $stylename       = 'smfcurve2custom';
+	public $template        = 'smfCurve2TemplateCustom';
+	public $useHeadElement  = true;
 
 	/**
 	 * @inheritDoc
 	 */
-    public function initPage(OutputPage $out)
-    {
-        parent::initPage($out);
+	public function initPage(OutputPage $out)
+	{
+		parent::initPage($out);
 
-		/**
+		/*
 		* Some shortcuts to more commonly used/needed methods.
 		* This is a incomplete list, see /includes/OutputPage.php for the complete list.
 		*
@@ -64,7 +64,7 @@ class smfCurve2SkinCustom extends smfCurve2Skin
 		 *
 		 * $out->addScript
 		 * 	!!! Add your own <script> tags, added just before </body>.
-	 	 * 		@param string $script Raw HTML
+		  * 		@param string $script Raw HTML
 		 *
 		 * $out->addScriptFile
 		 *  !!! Added just before </body>
@@ -89,13 +89,13 @@ class smfCurve2SkinCustom extends smfCurve2Skin
 		 * 		@param string|string[] $classes One or more classes to add
 		 */
 
-		$out->addModuleStyles( [
-			'skins.smfcurve2custom'
-		] );
+		$out->addModuleStyles([
+			'skins.smfcurve2custom',
+		]);
 
-		$out->addModules( [
-			'skins.smfcurve2custom.js'
-		] );
+		$out->addModules([
+			'skins.smfcurve2custom.js',
+		]);
 
 		// Add some additional css.
 		$out->addStyle('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap', 'screen', '');
