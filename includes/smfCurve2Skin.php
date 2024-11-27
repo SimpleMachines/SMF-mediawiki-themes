@@ -53,14 +53,13 @@ class smfCurve2Skin extends SkinTemplate
 		// We want it responsive
 		$out->addMeta(
 			'viewport',
-			'width=device-width, initial-scale=1.0, ' .
-			'user-scalable=yes, minimum-scale=0.25, maximum-scale=5.0',
+			'width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=0.25, maximum-scale=5.0'
 		);
 
 		// CSS & Less Files
 		$out->addModuleStyles([
 			'mediawiki.skinning.content.externallinks',
-			'skins.smfcurve2',
+			'skins.smfcurve2'
 		]);
 
 		// Right to left ?
@@ -68,7 +67,7 @@ class smfCurve2Skin extends SkinTemplate
 
 		// Load other scripts
 		$out->addModules([
-			'skins.smfcurve2.js',
+			'skins.smfcurve2.js'
 		]);
 	}
 }

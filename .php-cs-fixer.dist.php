@@ -33,15 +33,7 @@ return (new PhpCsFixer\Config())
 		'no_superfluous_elseif' => true,
 		'no_useless_else' => true,
 		'simplified_if_return' => true,
-		'trailing_comma_in_multiline' => [
-			'after_heredoc' => true,
-			'elements' => [
-				'arguments',
-				'arrays',
-				'match',
-				'parameters',
-			],
-		],
+		'trailing_comma_in_multiline' => false,
 
 		// Function notation.
 		'lambda_not_used_import' => true,

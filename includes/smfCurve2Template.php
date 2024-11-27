@@ -465,8 +465,9 @@ class smfCurve2Template extends BaseTemplate
 
 		echo '
 		<form id="search_form" class="search_form floatright" action="', $this->get('wgScript'), '">
-			<input type="hidden" name="title" value="', $this->get('searchtitle'), '"/>
-			', Html::input(
+			<input type="hidden" name="title" value="', $this->get('searchtitle'), '"/>';
+
+		Html::input(
 			'search',
 			($this->data['search'] ?? ''),
 			'search',
@@ -474,11 +475,11 @@ class smfCurve2Template extends BaseTemplate
 				'id' => 'searchInput',
 				'title' => 'search',
 				'accesskey' => 'search',
-			],
-		), '
-			<input type="submit" name="go" class="button" value="', $this->getMsg('searcharticle')->text(), '" ', ' />';
+			]
+		);
 
-			echo '
+		echo '
+			<input type="submit" name="go" class="button" value="', $this->getMsg('searcharticle')->text(), '" ', ' />
 		</form>';
 	}
 
