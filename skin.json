@@ -56,7 +56,6 @@
 	},
 	"ResourceModules": {
 		"skins.smfcurve2": {
-			"targets": [ "desktop", "mobile" ],
 			"class": "MediaWiki\\ResourceLoader\\SkinModule",
 			"features": [
 				"elements",
@@ -64,11 +63,9 @@
 				"logo",
 				"content-links",
 				"content-media",
-				"interface-message-box",
 				"interface-category",
 				"content-tables",
 				"i18n-ordered-lists",
-				"i18n-all-lists-margins",
 				"i18n-headings"
 			],
 			"styles": {
@@ -84,13 +81,11 @@
 			}
 		},
 		"skins.smfcurve2.js": {
-			"targets": [ "desktop", "mobile" ],
 			"scripts": [
 				"resources/scripts/main.js"
 			]
 		},
 		"skins.smfcurve2custom": {
-			"targets": [ "desktop", "mobile" ],
 			"class": "MediaWiki\\ResourceLoader\\SkinModule",
 			"features": [
 				"elements",
@@ -98,11 +93,9 @@
 				"logo",
 				"content-links",
 				"content-media",
-				"interface-message-box",
 				"interface-category",
 				"content-tables",
 				"i18n-ordered-lists",
-				"i18n-all-lists-margins",
 				"i18n-headings"
 			],
 			"styles": {
@@ -112,9 +105,9 @@
 			}
 		},
 		"skins.smfcurve2custom.js": {
-			"targets": [ "desktop", "mobile" ],
 			"scripts": [
-				"resources/scripts/custom.js"
+				"resources/scripts/custom.js",
+				"resources/scripts/jquery.custom-scrollbar.js"
 			]
 		}
 	},

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SMF Curve 2
  *
@@ -32,15 +33,12 @@ use File;
 use Html;
 use Linker;
 use MediaWiki\MediaWikiServices;
-use MWDebug;
-use ResourceLoaderSkinModule;
+use RequestContext;
 use Sanitizer;
 use SpecialPage;
 use Xml;
-use Hooks;
-Use RequestContext;
 
-/** 
+/**
  * If you wish to add your SMF forum's Menu bar :
  *
  * Remove the Comment,
@@ -50,27 +48,41 @@ Use RequestContext;
 //	require_once("path/to/SSI.php");
 class smfCurve2Template extends BaseTemplate
 {
-	/** @var array */
+	/**
+	 * @var array
+	 */
 	protected $pileOfTools;
 
-	/** @var (array|false)[] */
+	/**
+	 * @var (array|false)[]
+	 */
 	protected $sidebar;
 
-	/** @var array|null */
+	/**
+	 * @var array|null
+	 */
 	protected $otherProjects;
 
-	/** @var array|null */
+	/**
+	 * @var array|null
+	 */
 	protected $collectionPortlet;
 
-	/** @var array[] */
+	/**
+	 * @var array[]
+	 */
 	protected $languages;
 
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	protected $afterLangPortlet;
 	protected $skin;
 	protected $currentAction;
 
-	/** @var bool */
+	/**
+	 * @var bool
+	 */
 	protected $showSMFmenu = false;
 	protected $useLogoImage = false;
 	protected $useSideSearchBox = false;
@@ -78,7 +90,8 @@ class smfCurve2Template extends BaseTemplate
 	/**
 	 * @return Config
 	 */
-	protected function getConfig() {
+	protected function getConfig()
+	{
 		return $this->config;
 	}
 
@@ -100,23 +113,27 @@ class smfCurve2Template extends BaseTemplate
 		// Add to your LocalSettings: $wgsmfRoot = '';
 		// If you have the ForumSSoProvider installed you could do: $wgsmfRoot = $wgFSPPath;
 		$ssi = $this->getConfig()->get('smfRoot');
-		if (!empty($ssi) && is_string($ssi) && file_exists($ssi . '/SSI.php'))
-		{
-			include($ssi . '/Settings.php');
-			require_once($ssi . '/SSI.php');
+
+		if (!empty($ssi) && is_string($ssi) && file_exists($ssi . '/SSI.php')) {
+			include $ssi . '/Settings.php';
+
+			require_once $ssi . '/SSI.php';
 		}
 
 		// Add to your LocalSettings: $wgshowSMFmenu = true;
-		if (is_bool($this->getConfig()->get('showSMFmenu')))
+		if (is_bool($this->getConfig()->get('showSMFmenu'))) {
 			$this->showSMFmenu = $this->getConfig()->get('showSMFmenu');
+		}
 
 		// Add to your LocalSettings: $wguseLogoImage = true;
-		if (is_bool($this->getConfig()->get('useLogoImage')))
+		if (is_bool($this->getConfig()->get('useLogoImage'))) {
 			$this->useLogoImage = $this->getConfig()->get('useLogoImage');
+		}
 
 		// Add to your LocalSettings: $wguseSideSearchBox = true;
-		if (is_bool($this->getConfig()->get('useSideSearchBox')))
+		if (is_bool($this->getConfig()->get('useSideSearchBox'))) {
 			$this->useSideSearchBox = $this->getConfig()->get('useSideSearchBox');
+		}
 
 		$this->skin = $skin = $this->data['skin'];
 
@@ -144,12 +161,14 @@ class smfCurve2Template extends BaseTemplate
 			<div id="header">';
 
 			// Logo or Title
-			if (method_exists($this, 'customHeaderSection'))
+			if (method_exists($this, 'customHeaderSection')) {
 				$this->customHeaderSection();
+			}
 
 			// Customization...
-			if (method_exists($this, 'customHeaderContent'))
+			if (method_exists($this, 'customHeaderContent')) {
 				$this->customHeaderContent();
+			}
 
 			echo '
 			</div>
@@ -178,8 +197,7 @@ class smfCurve2Template extends BaseTemplate
 									<div class="genericmenu">
 										<ul class="dropmenu dropmenu_menu_0">';
 
-										foreach ($this->data['content_actions'] as $key => $tab)
-										{
+										foreach ($this->data['content_actions'] as $key => $tab) {
 											/*
 												We don't want to give the watch tab an accesskey if the
 												page is being edited, because that conflicts with the
@@ -190,7 +208,7 @@ class smfCurve2Template extends BaseTemplate
 											*/
 											echo '
 											<li id="', Sanitizer::escapeIdForAttribute('ca-' . $key), '"', (!empty($tab['class']) ? ' class="' . htmlspecialchars($tab['class']) . '"' : ''), '>
-												<a href="', htmlspecialchars($tab['href']), '"', (in_array($this->currentAction, array('edit', 'submit')) && in_array($key, array('edit', 'watch', 'unwatch' )) ), ' class="firstlevel', $tab['class'] == 'selected' ? ' active' : '', '"><span class="generic_icons ', Sanitizer::escapeIdForAttribute($key), '"></span><span class="firstlevel">'.htmlspecialchars($tab['text']).'</span></a>
+												<a href="', htmlspecialchars($tab['href']), '"', (in_array($this->currentAction, ['edit', 'submit']) && in_array($key, ['edit', 'watch', 'unwatch' ])), ' class="firstlevel', $tab['class'] == 'selected' ? ' active' : '', '"><span class="generic_icons ', Sanitizer::escapeIdForAttribute($key), '"></span><span class="firstlevel">' . htmlspecialchars($tab['text']) . '</span></a>
 											</li>';
 										}
 										echo '
@@ -201,7 +219,7 @@ class smfCurve2Template extends BaseTemplate
 						</div>';
 
 					// Let's get dem Indicators, such as the Help link.
-					if ( is_callable( [ $this, 'getIndicators' ] ) ) {
+					if (is_callable([ $this, 'getIndicators' ])) {
 						echo '<div class="indicator floatright">',$this->getIndicators(),'</div>';
 					}
 
@@ -211,8 +229,9 @@ class smfCurve2Template extends BaseTemplate
 				<!-- #upper_section -->';
 
 				// Customization...
-				if (method_exists($this, 'customUserAreaAddon'))
+				if (method_exists($this, 'customUserAreaAddon')) {
 					$this->customUserAreaAddon();
+				}
 
 				echo '
 				<div id="content_section">
@@ -225,36 +244,42 @@ class smfCurve2Template extends BaseTemplate
 					$sidebar = $this->data['sidebar'];
 
 					// Force the rendering of the following boxes
-					if (!isset($sidebar['SEARCH']))
+					if (!isset($sidebar['SEARCH'])) {
 						$sidebar['SEARCH'] = true;
-					if (!isset($sidebar['TOOLBOX']))
-						$sidebar['TOOLBOX'] = true;
-					if (!isset($sidebar['LANGUAGES']))
-						$sidebar['LANGUAGES'] = true;
+					}
 
-					foreach ($sidebar as $boxName => $cont)
-					{
-						if ( $cont === false ) {
+					if (!isset($sidebar['TOOLBOX'])) {
+						$sidebar['TOOLBOX'] = true;
+					}
+
+					if (!isset($sidebar['LANGUAGES'])) {
+						$sidebar['LANGUAGES'] = true;
+					}
+
+					foreach ($sidebar as $boxName => $cont) {
+						if ($cont === false) {
 							continue;
 						}
 
 						// Numeric strings gets an integer when set as key, cast back - T73639
-						$boxName = (string)$boxName;
+						$boxName = (string) $boxName;
 
 						switch ($boxName) {
 							case 'SEARCH':
-								if($this->useSideSearchBox)
+								if ($this->useSideSearchBox) {
 									$this->buildBox('sb', $this->searchBox(), 'search');
+								}
 								break;
 
 							case 'TOOLBOX':
-								$this->buildBox('tb', $this->get('sidebar')['TOOLBOX'], 'toolbox', 'SkinTemplateToolboxEnd' );
-								(MediaWikiServices::getInstance()->getHookContainer())->run( 'smfCurve2AfterToolbox' );
+								$this->buildBox('tb', $this->get('sidebar')['TOOLBOX'], 'toolbox', 'SkinTemplateToolboxEnd');
+								(MediaWikiServices::getInstance()->getHookContainer())->run('smfCurve2AfterToolbox');
 								break;
 
 							case 'LANGUAGES':
-								if ($this->data['language_urls'] !== false)
+								if ($this->data['language_urls'] !== false) {
 									$this->buildBox('lang', $this->data['language_urls'], 'otherlanguages');
+								}
 								break;
 
 							default:
@@ -264,8 +289,9 @@ class smfCurve2Template extends BaseTemplate
 					}
 
 					// Customization...
-					if (method_exists($this, 'customSideBarLower'))
+					if (method_exists($this, 'customSideBarLower')) {
 						$this->customSideBarLower();
+					}
 
 					echo '
 								</div>
@@ -275,8 +301,9 @@ class smfCurve2Template extends BaseTemplate
 								<div id="column-content">';
 
 					// Customization...
-					if (method_exists($this, 'customPageContentUpper'))
+					if (method_exists($this, 'customPageContentUpper')) {
 						$this->customPageContentUpper();
+					}
 
 					echo '
 									<div id="content" ', $this->html('specialpageattributes') , '>
@@ -287,7 +314,7 @@ class smfCurve2Template extends BaseTemplate
 												<span class="left"></span>', $this->html('title'), '
 												<span id="siteSub" class="floatright">', $this->getMsg('tagline')->text(), '</span>
 											</h3>
-											', ($this->data['subtitle'] ? '<div id="contentSub" class="desc">'.$this->data['subtitle'].'</div>' : ''), '
+											', ($this->data['subtitle'] ? '<div id="contentSub" class="desc">' . $this->data['subtitle'] . '</div>' : ''), '
 										</div>
 
 										<!-- start content -->
@@ -306,12 +333,13 @@ class smfCurve2Template extends BaseTemplate
 
 									<br />
 									<!-- end content -->', ($this->data['dataAfterContent'] ?
-									$this->html ('dataAfterContent') : '') , '
+									$this->html('dataAfterContent') : '') , '
 									<div class="visualClear"></div>';
 
 					// Customization...
-					if (method_exists($this, 'customPageContentLower'))
+					if (method_exists($this, 'customPageContentLower')) {
 						$this->customPageContentLower();
+					}
 
 					echo '
 								</div>
@@ -326,26 +354,27 @@ class smfCurve2Template extends BaseTemplate
 		</div>
 		<!-- #footerfix -->';
 
-		(MediaWikiServices::getInstance()->getHookContainer())->run( 'smfcurve2BeforeFooter' );
+		(MediaWikiServices::getInstance()->getHookContainer())->run('smfcurve2BeforeFooter');
 
-		if (method_exists($this, 'customPagePreFooter'))
+		if (method_exists($this, 'customPagePreFooter')) {
 			$this->customPagePreFooter();
+		}
 
 		echo '
 		<div id="footer">
 			<div class="frame">';
 
 				// Customization...
-				if (method_exists($this, 'customPageFooter'))
+				if (method_exists($this, 'customPageFooter')) {
 					$this->customPageFooter();
-				else {
+				} else {
 					echo '
 					<ul class="footer-links floatleft">';
 
-					foreach($this->getFooterLinks() as $cat=>$links) {
-						foreach($links as $link) {							
+					foreach ($this->getFooterLinks() as $cat => $links) {
+						foreach ($links as $link) {
 							echo'
-							<li class="ft-', $link, '', $link=="lastmod" ? ' block' : '', '', !empty($link) ? '' : ' hidden', '">', $this->html($link) , '</li>';
+							<li class="ft-', $link, '', $link == 'lastmod' ? ' block' : '', '', !empty($link) ? '' : ' hidden', '">', $this->html($link) , '</li>';
 						}
 					}
 
@@ -353,8 +382,8 @@ class smfCurve2Template extends BaseTemplate
 					</ul>
 					<ul class="footer-icons floatright">';
 
-					foreach($this->get('footericons') as $icon_groups => $icons) {
-						foreach($icons as $icon) {
+					foreach ($this->get('footericons') as $icon_groups => $icons) {
+						foreach ($icons as $icon) {
 							echo'
 							<li ', !empty($icon) ? '' : 'class="hidden"', '>', $this->getSkin()->makeFooterIcon($icon) , '</li>';
 						}
@@ -365,8 +394,9 @@ class smfCurve2Template extends BaseTemplate
 				}
 
 				// Customization...
-				if (method_exists($this, 'customPageFooterExtra'))
+				if (method_exists($this, 'customPageFooterExtra')) {
 					$this->customPageFooterExtra();
+				}
 
 				echo '
 			</div>
@@ -374,8 +404,9 @@ class smfCurve2Template extends BaseTemplate
 		<!-- #footer -->';
 
 		// Customization...
-		if (method_exists($this, 'customBodyLower'))
+		if (method_exists($this, 'customBodyLower')) {
 			$this->customBodyLower();
+		}
 
 		echo '
 		<!-- End smfcuve2 -->';
@@ -393,23 +424,27 @@ class smfCurve2Template extends BaseTemplate
 				<div class="popup_window description">
 					<div class="popup_heading">
 						', $this->getMsg('smfcurve2-user-menu')->text(), '
-						<a href="javascript:void(0);" class="generic_icons delete hide_popUp_', $menuID, '"></a>
+						<a href="javascript:void(0);" class="main_icons delete hide_popUp_', $menuID, '"></a>
 					</div>
 					<div class="genericmenu">
 						<ul', $this->html('userlangattributes') , ' class="floatleft dropmenu dropmenu_menu_', $menuID, '" id="top_info">';
 
-						foreach ($this->data['personal_urls'] as $key => $item)
-						{
-							if (!empty($limitUrls) && empty($inverseLimit) && !in_array($key, $limitUrls))
+						foreach ($this->data['personal_urls'] as $key => $item) {
+							if (!empty($limitUrls) && empty($inverseLimit) && !in_array($key, $limitUrls)) {
 								continue;
-							elseif (!empty($limitUrls) && !empty($inverseLimit) && in_array($key, $limitUrls))
+							}
+
+							if (!empty($limitUrls) && !empty($inverseLimit) && in_array($key, $limitUrls)) {
 								continue;
-							elseif (empty($item['href']))
+							}
+
+							if (empty($item['href'])) {
 								continue;
+							}
 
 							echo '
 							<li data-key="', $key, '" id="', Sanitizer::escapeIdForAttribute('pt-' . $key), '"', (!empty($item['active']) ? ' class="active"' : ''), '>
-								<a href="', htmlspecialchars($item['href']) , '"', (!empty($item['class']) ? ' class="' . htmlspecialchars($item['class']) . '"' : ''), '><span class="generic_icons '.Sanitizer::escapeIdForAttribute($key).'"></span><span class="pt-itemText">', htmlspecialchars($item['text']), '</span></a>
+								<a href="', htmlspecialchars($item['href']) , '"', (!empty($item['class']) ? ' class="' . htmlspecialchars($item['class']) . '"' : ''), '><span class="main_icons ' . Sanitizer::escapeIdForAttribute($key) . '"></span><span class="pt-itemText">', htmlspecialchars($item['text']), '</span></a>
 							</li>';
 						}
 
@@ -430,16 +465,21 @@ class smfCurve2Template extends BaseTemplate
 
 		echo '
 		<form id="search_form" class="search_form floatright" action="', $this->get('wgScript'), '">
-			<input type="hidden" name="title" value="', $this->get('searchtitle'), '"/>
-			', Html::input('search', (isset($this->data['search']) ? $this->data['search'] : ''), 'search',
-			array(
+			<input type="hidden" name="title" value="', $this->get('searchtitle'), '"/>';
+
+		Html::input(
+			'search',
+			($this->data['search'] ?? ''),
+			'search',
+			[
 				'id' => 'searchInput',
 				'title' => 'search',
 				'accesskey' => 'search',
-			)), '
-			<input type="submit" name="go" class="button" value="', $this->getMsg('searcharticle')->text(), '" ', ' />';
+			]
+		);
 
-			echo '
+		echo '
+			<input type="submit" name="go" class="button" value="', $this->getMsg('searcharticle')->text(), '" ', ' />
 		</form>';
 	}
 
@@ -448,27 +488,27 @@ class smfCurve2Template extends BaseTemplate
 	 *
 	 * @returns string $output
 	 */
-	function searchBox()
+	public function searchBox()
 	{
 		$output = '
-			<form action="'.$this->get('wgScript').'" id="searchform">
-				<input type="hidden" name="title" value="'.$this->get('searchtitle').'"/>';
+			<form action="' . $this->get('wgScript') . '" id="searchform">
+				<input type="hidden" name="title" value="' . $this->get('searchtitle') . '"/>';
 
 		$output .=	Html::input(
-						'search',
-						(isset($this->data['search']) ? $this->data['search'] : ''),
-						'search',
-						array(
-							'id' => 'searchInput1',
-							'title' => 'search',
-							'accesskey' => 'search',
-							'class' => 'block',
-						)
-					);
+			'search',
+			($this->data['search'] ?? ''),
+			'search',
+			[
+				'id' => 'searchInput1',
+				'title' => 'search',
+				'accesskey' => 'search',
+				'class' => 'block',
+			]
+		);
 
 		$output .= '
 				<input type="submit" name="fulltext" class="button" value="' . $this->getMsg('searchbutton')->text() . '"' . ' />
-				<a href="' . SpecialPage::newSearchPage( RequestContext::getMain()->getUser() ) . '" rel="search" class="button">' . $this->getMsg('powersearch-legend')->text() . '</a>
+				<a href="' . SpecialPage::newSearchPage(RequestContext::getMain()->getUser()) . '" rel="search" class="button">' . $this->getMsg('powersearch-legend')->text() . '</a>
 			</form>';
 
 		return $output;
@@ -477,7 +517,7 @@ class smfCurve2Template extends BaseTemplate
 	/**
 	 * Tool Box
 	 */
-	function toolbox()
+	public function toolbox()
 	{
 		echo '
 		<div class="side-block">
@@ -491,58 +531,65 @@ class smfCurve2Template extends BaseTemplate
 
 				<ul>';
 
-				if ($this->data['notspecialpage'])
+				if ($this->data['notspecialpage']) {
 					echo '
 					<li id="t-whatlinkshere">
-						<a href="', htmlspecialchars($this->data['nav_urls']['whatlinkshere']['href']), '"',  '>', 
+						<a href="', htmlspecialchars($this->data['nav_urls']['whatlinkshere']['href']), '"',  '>',
 							$this->getMsg('whatlinkshere')->text(), '
 						</a>
 					</li>', ($this->data['nav_urls']['recentchangeslinked'] ? '
 					<li id="t-recentchangeslinked">
-						<a href="' . htmlspecialchars($this->data['nav_urls']['recentchangeslinked']['href']) . '"' . '>' . 
+						<a href="' . htmlspecialchars($this->data['nav_urls']['recentchangeslinked']['href']) . '"' . '>' .
 							$this->getMsg('recentchangeslinked-toolbox')->text() . '
 						</a>
 					</li>' : '');
+				}
 
-				if (isset($this->data['nav_urls']['trackbacklink']) && $this->data['nav_urls']['trackbacklink'])
+				if (isset($this->data['nav_urls']['trackbacklink']) && $this->data['nav_urls']['trackbacklink']) {
 					echo '
 					<li id="t-trackbacklink">
 						<a href="', htmlspecialchars($this->data['nav_urls']['trackbacklink']['href']), '"',  '>
 							', $this->getMsg('trackbacklink')->text(), '
 						</a>
 					</li>';
+				}
 
-				if ($this->data['feeds'])
-				{
+				if ($this->data['feeds']) {
 					echo '
 					<li id="feedlinks">';
-					foreach($this->data['feeds'] as $key => $feed)
+
+					foreach ($this->data['feeds'] as $key => $feed) {
 						echo '
-						<a id="', Sanitizer::escapeIdForAttribute('feed-' . $key). '" href="', htmlspecialchars($feed['href']), '" rel="alternate" type="application/', $key, '+xml" class="feedlink"', '>', htmlspecialchars($feed['text']), '</a>&nbsp;';
+						<a id="', Sanitizer::escapeIdForAttribute('feed-' . $key) . '" href="', htmlspecialchars($feed['href']), '" rel="alternate" type="application/', $key, '+xml" class="feedlink"', '>', htmlspecialchars($feed['text']), '</a>&nbsp;';
+					}
 					echo '
 					</li>';
 				}
 
-				foreach (array('contributions', 'log', 'blockip', 'emailuser', 'upload', 'specialpages') as $special)
-					if($this->data['nav_urls'][$special])
+				foreach (['contributions', 'log', 'blockip', 'emailuser', 'upload', 'specialpages'] as $special) {
+					if ($this->data['nav_urls'][$special]) {
 						echo '
 					<li id="t-', $special, '">
 						<a href="', htmlspecialchars($this->data['nav_urls'][$special]['href']), '"',  '>', $this->getMsg($special)->text(), '</a>
 					</li>';
+					}
+				}
 
-				if (!empty($this->data['nav_urls']['print']['href']))
+				if (!empty($this->data['nav_urls']['print']['href'])) {
 					echo '
 					<li id="t-print">
 						<a href="', htmlspecialchars($this->data['nav_urls']['print']['href']), '" rel="alternate"', '>', $this->getMsg('printableversion')->text(), '</a>
 					</li>';
+				}
 
-				if (!empty($this->data['nav_urls']['permalink']['href']))
+				if (!empty($this->data['nav_urls']['permalink']['href'])) {
 					echo '
 					<li id="t-permalink">
 						<a href="', htmlspecialchars($this->data['nav_urls']['permalink']['href']), '"','>', $this->getMsg('permalink')->text(), '</a></li>';
-				elseif (empty($this->data['nav_urls']['permalink']['href']))
+				} elseif (empty($this->data['nav_urls']['permalink']['href'])) {
 					echo '
 					<li id="t-ispermalink">', $this->getMsg('permalink')->text(), '</li>';
+				}
 
 				(MediaWikiServices::getInstance()->getHookContainer())->run('smfCurve2AfterToolboxEnd');
 
@@ -554,36 +601,35 @@ class smfCurve2Template extends BaseTemplate
 	}
 
 	/**
-	 * @param string $name
-	 * @param array|string $content
 	 * @param null|string $msg
 	 * @param null|string|array $hook
+	 * @param string $name
+	 * @param array|string $content
 	 */
 	protected function buildBox($boxName, $cont, $msg = null, $hook = null)
 	{
-		if ($msg === null)
+		if ($msg === null) {
 			$msg = $boxName;
+		}
 
-		$msgObj = wfMessage( $msg );
-		$labelId = Sanitizer::escapeIdForAttribute( "p-$boxName-label" );
+		$msgObj = wfMessage($msg);
+		$labelId = Sanitizer::escapeIdForAttribute("p-{$boxName}-label");
 
 		echo '
-		<div class="side-block" role="navigation" id="', htmlspecialchars(Sanitizer::escapeIdForAttribute("p-$boxName")), '" aria-labelledby="', htmlspecialchars($labelId), '">
+		<div class="side-block" role="navigation" id="', htmlspecialchars(Sanitizer::escapeIdForAttribute("p-{$boxName}")), '" aria-labelledby="', htmlspecialchars($labelId), '">
 			<div class="cat_bar">
 				<h3 id="', htmlspecialchars($labelId), '" class="catbg" ', $this->html('userlangattributes'), '>
-					', htmlspecialchars( $msgObj->exists() ? $msgObj->text() : $msg ), '
+					', htmlspecialchars($msgObj->exists() ? $msgObj->text() : $msg), '
 				</h3>
 			</div>
 			<div class="windowbg">';
 
-				if (is_array($cont))
-				{
+				if (is_array($cont)) {
 					echo '
 					<ul>';
 
-					foreach($cont as $key => $val)
-					{
-						echo $this->makeListItem( $key, $val );
+					foreach ($cont as $key => $val) {
+						echo $this->makeListItem($key, $val);
 					}
 
 					if ($hook !== null) {
@@ -594,9 +640,9 @@ class smfCurve2Template extends BaseTemplate
 
 					echo '
 					</ul>';
-				} else
-					// Allow raw HTML block to be defined by extensions
+				} else { // Allow raw HTML block to be defined by extensions
 					echo $cont;
+				}
 
 				echo '
 
@@ -607,7 +653,7 @@ class smfCurve2Template extends BaseTemplate
 	/*
 		The custom top section
 	*/
-	function customTopSection()
+	public function customTopSection()
 	{
 		$this->userMenu();
 		$this->quickSearch();
@@ -616,14 +662,14 @@ class smfCurve2Template extends BaseTemplate
 	/**
 	 * The One and only Logo
 	 */
-	function customHeaderSection()
+	public function customHeaderSection()
 	{
 		global $wgLogo;
 
 		echo '
 		<h1 class="forumtitle">
-			<a id="top" href="', htmlspecialchars( $this->data['nav_urls']['mainpage']['href'] ), '" ', Xml::expandAttributes( Linker::tooltipAndAccesskeyAttribs( 'p-logo' ) ), '>
-				', $this->useLogoImage ? '<img src="'.$wgLogo.'" alt="" title=""/>' : $this->data['sitename'], '
+			<a id="top" href="', htmlspecialchars($this->data['nav_urls']['mainpage']['href']), '" ', Xml::expandAttributes(Linker::tooltipAndAccesskeyAttribs('p-logo')), '>
+				', $this->useLogoImage ? '<img src="' . $wgLogo . '" alt="" title=""/>' : $this->data['sitename'], '
 			</a>
 		</h1>';
 	}
@@ -635,10 +681,9 @@ class smfCurve2Template extends BaseTemplate
 	 *
 	 * smfMenu() --> Loads Forum Menu.
 	 */
-	function smfMenu()
+	public function smfMenu()
 	{
-		if((defined('SMF') && $this->showSMFmenu))
-		{
+		if ((defined('SMF') && $this->showSMFmenu)) {
 			echo'
 			<a class="menu_icon mobile_generic_menu_main"></a>
 			<div id="genericmenu">

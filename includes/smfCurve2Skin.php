@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SMF Curve 2
  *
@@ -27,6 +28,7 @@
 
 namespace MediaWiki\Skin\smfcurve2;
 
+use OutputPage;
 use SkinTemplate;
 
 /**
@@ -35,35 +37,37 @@ use SkinTemplate;
  * @ingroup Skins
  */
 class smfCurve2Skin extends SkinTemplate
-{	
+{
+	public $skinname        = 'smfcurve2';
+	public $stylename       = 'smfcurve2';
+	public $template        = 'smfCurve2Template';
+	public $useHeadElement  = true;
+
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct(
-		array $options = []
-	) {
-		$out = $this->getOutput();
+	public function initPage(OutputPage $out)
+	{
+		parent::initPage($out);
 
 		// We want it responsive
-		$out->addMeta( 'viewport',
-			'width=device-width, initial-scale=1.0, ' .
-			'user-scalable=yes, minimum-scale=0.25, maximum-scale=5.0'
+		$out->addMeta(
+			'viewport',
+			'width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=0.25, maximum-scale=5.0'
 		);
 
 		// CSS & Less Files
-		$out->addModuleStyles( [
+		$out->addModuleStyles([
 			'mediawiki.skinning.content.externallinks',
 			'skins.smfcurve2'
-		] );
+		]);
 
 		// Right to left ?
 		$out->addStyle('smfcurve2/css/rtl.css', 'screen', '', 'rtl');
 
 		// Load other scripts
-		$out->addModules( [
+		$out->addModules([
 			'skins.smfcurve2.js'
-		] );
-
-		parent::__construct( $options );
+		]);
 	}
 }
