@@ -503,7 +503,7 @@ class smfCurve2Template extends BaseTemplate
 				'title' => 'search',
 				'accesskey' => 'search',
 				'class' => 'block',
-			],
+			]
 		);
 
 		$output .= '
