@@ -53,7 +53,7 @@ $(function () {
 					'X-SMF-AJAX': 1
 				},
 				xhrFields: {
-					withCredentials: typeof allow_xhjr_credentials !== "undefined" ? allow_xhjr_credentials : false
+					withCredentials: true
 				},
 				type: "GET",
 				dataType: "html",
