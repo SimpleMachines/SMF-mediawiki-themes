@@ -102,24 +102,6 @@ class smfCurve2Template extends BaseTemplate
 	{
 		global $wgRequest;
 
-		// SMF's massive globals.
-		global $maintenance, $msubject, $mmessage, $mbname, $language;
-		global $boardurl, $boarddir, $sourcedir, $webmaster_email, $cookiename, $db_character_set;
-		global $db_type, $db_server, $db_name, $db_user, $db_prefix, $db_persist, $db_error_send, $db_last_error, $db_show_debug;
-		global $db_connection, $db_port, $modSettings, $context, $sc, $user_info, $topic, $board, $txt;
-		global $smcFunc, $ssi_db_user, $scripturl, $ssi_db_passwd, $db_passwd, $cache_enable, $cachedir;
-		global $auth_secret, $cache_accelerator, $cache_memcached;
-
-		// Add to your LocalSettings: $wgsmfRoot = '';
-		// If you have the ForumSSoProvider installed you could do: $wgsmfRoot = $wgFSPPath;
-		$ssi = $this->getConfig()->get('smfRoot');
-
-		if (!empty($ssi) && is_string($ssi) && file_exists($ssi . '/SSI.php')) {
-			include $ssi . '/Settings.php';
-
-			require_once $ssi . '/SSI.php';
-		}
-
 		// Add to your LocalSettings: $wgshowSMFmenu = true;
 		if (is_bool($this->getConfig()->get('showSMFmenu'))) {
 			$this->showSMFmenu = $this->getConfig()->get('showSMFmenu');
