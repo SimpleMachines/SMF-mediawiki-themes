@@ -175,24 +175,24 @@ class smfCurve2Template extends BaseTemplate
 			<!-- #header -->
 			<div id="wrapper">
 				<div id="upper_section">
-					<div id="inner_section">
-
-						<div class="inner_wrap">';
+					<div id="inner_section">';
 
 						// Do we have an SMF Menu ?
 						$this->smfMenu();
 
 						echo '
-						</div>
 						<hr class="clear ', (defined('SMF') && $this->showSMFmenu) ? '' : 'hidden', '">
 
-						<a class="menu_icon mobile_generic_menu_0"></a>
+						<a class="mobile_generic_menu_0">
+							<span class="menu_icon"></span>
+							<span class="text_menu">', $this->getMsg('smfcurve2-mw-menu')->text(), '</span>
+						</a>
 						<div id="genericmenu" class="floatleft">
 							<div id="mobile_generic_menu_0" class="popup_container">
 								<div class="popup_window description">
 									<div class="popup_heading">
 										', $this->getMsg('smfcurve2-mw-menu')->text(), '
-										<a href="javascript:void(0);" class="generic_icons delete hide_popUp"></a>
+										<a href="javascript:void(0);" class="main_icons hide_popup"></a>
 									</div>
 									<div class="genericmenu">
 										<ul class="dropmenu dropmenu_menu_0">';
@@ -424,7 +424,7 @@ class smfCurve2Template extends BaseTemplate
 				<div class="popup_window description">
 					<div class="popup_heading">
 						', $this->getMsg('smfcurve2-user-menu')->text(), '
-						<a href="javascript:void(0);" class="main_icons delete hide_popUp_', $menuID, '"></a>
+						<a href="javascript:void(0);" class="main_icons hide_popup"></a>
 					</div>
 					<div class="genericmenu">
 						<ul', $this->html('userlangattributes') , ' class="floatleft dropmenu dropmenu_menu_', $menuID, '" id="top_info">';
@@ -685,13 +685,16 @@ class smfCurve2Template extends BaseTemplate
 	{
 		if ((defined('SMF') && $this->showSMFmenu)) {
 			echo'
-			<a class="menu_icon mobile_generic_menu_main"></a>
-			<div id="genericmenu">
-				<div id="mobile_generic_menu_main" class="popup_container">
+			<a class="mobile_user_menu">
+				<span class="menu_icon"></span>
+				<span class="text_menu">', $this->getMsg('smfcurve2-mobile-menu')->text(), '</span>
+			</a>
+			<div id="main_menu">
+				<div id="mobile_user_menu" class="popup_container">
 					<div class="popup_window description">
 						<div class="popup_heading">
 							', $this->getMsg('smfcurve2-mobile-menu')->text(), '
-							<a href="javascript:void(0);" class="generic_icons delete hide_popUp_main"></a>
+							<a href="javascript:void(0);" class="main_icons hide_popup"></a>
 						</div>
 						', ssi_menubar(), '
 					</div>
