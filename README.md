@@ -47,11 +47,21 @@ $wgDefaultSkin = "smfcurve2";
 We provide a few simple and more advanced methods to customizing the skin.
 
 ### Simple
-
-#### Adding the forum main menu
 Add to your LocalSettings.php (After your wfLoadSkin line)
+
+#### Connecting to SMF SSI.
+Needed for adding the forum news and main menu.
 ```
 $wgsmfRoot = '/path/to/forum';
+```
+
+#### Adding the forum news
+```
+$wgshowSMFnews = true;
+```
+
+#### Adding the forum main menu
+```
 $wgshowSMFmenu = true;
 ```
 

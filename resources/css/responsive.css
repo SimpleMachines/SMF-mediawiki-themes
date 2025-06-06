@@ -122,6 +122,10 @@
 		float:none;
 		margin: 0;
 	}
+	/* Hide me */
+	#inner_wrap.hide_720, #inner_wrap time, #inner_wrap .news {
+		display: none !important;
+	}
 }
 
 /* 720 ---> 480 */

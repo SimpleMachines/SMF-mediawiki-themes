@@ -1188,6 +1188,62 @@ h1.forumtitle a {
 	clear: both;
 }
 
+/* The upper_section, float the two each way */
+#inner_wrap {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid #bbb;
+	margin-bottom: 12px;
+}
+.user {
+	padding: 0 4px 8px 4px;
+	font-size: 0.9em;
+	white-space: nowrap;
+}
+.user:only-child {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+.user time,
+.user .unread_links,
+.user .unread_links li {
+	display: inline-block;
+}
+.user:not(:last-child) time:not(:last-child)::after,
+.user .unread_links li:not(:last-child)::after {
+	content: " • ";
+	margin: 0 1ch;
+}
+ul li.greeting {
+	font-weight: bold;
+}
+/* The login form. */
+#guest_form {
+	overflow: hidden;
+	font-size: 0.9em;
+	margin-left: -2px;
+}
+/* News section. */
+#inner_wrap .news {
+	padding: 0 0 8px 1ch;
+	font-size: 0.9em;
+	display: flex;
+	align-items: baseline;
+	max-width: 50%;
+}
+#inner_wrap .news span {
+	font-weight: bold;
+	line-height: initial;
+}
+#inner_wrap .news span,
+#inner_wrap .news p {
+	display: inline;
+	margin: 0;
+	padding-left: 1ch;
+}
+
 /* The content section */
 #content_section {
 	margin: 0 auto;
