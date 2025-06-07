@@ -48,13 +48,34 @@ class smfCurve2Skin extends SkinTemplate
 	 */
 	public function initPage(OutputPage $out)
 	{
+		$this->smfSetup();
 		parent::initPage($out);
 
+		global $context;
+
 		// We want it responsive
-		$out->addMeta(
-			'viewport',
-			'width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=0.25, maximum-scale=5.0'
-		);
+		$out->addMeta('viewport', 'width=device-width, initial-scale=1');
+
+		// What is your Lollipop's color?
+		$out->addMeta('theme-color', '#557EA0');
+
+		// Default JS variables for SMF
+		if (defined('SMF') && !empty($context['javascript_vars']) && is_array($context['javascript_vars'])) {
+			$script = "<script>";
+
+			foreach ($context['javascript_vars'] as $key => $value) {
+				if (!is_string($key) || is_numeric($key))
+					continue;
+
+				if (!is_string($value) && !is_numeric($value))
+					$value = null;
+
+				$script .= "\n\tvar {$key} = " . ($value ?? 'null') . ";";
+			}
+
+			$script .= "\n</script>";
+			$out->addHeadItem('smfcurve2-inline-vars', $script);
+		}
 
 		// CSS & Less Files
 		$out->addModuleStyles([
@@ -69,5 +90,29 @@ class smfCurve2Skin extends SkinTemplate
 		$out->addModules([
 			'skins.smfcurve2.js'
 		]);
+	}
+
+	/**
+	 * Set up the SMF environment.
+	 */
+	private function smfSetup()
+	{
+		// SMF's massive globals.
+		global $maintenance, $msubject, $mmessage, $mbname, $language;
+		global $boardurl, $boarddir, $sourcedir, $webmaster_email, $cookiename, $db_character_set;
+		global $db_type, $db_server, $db_name, $db_user, $db_prefix, $db_persist, $db_error_send, $db_last_error, $db_show_debug;
+		global $db_connection, $db_port, $modSettings, $context, $sc, $user_info, $topic, $board, $txt;
+		global $smcFunc, $ssi_db_user, $scripturl, $ssi_db_passwd, $db_passwd, $cache_enable, $cachedir;
+		global $auth_secret, $cache_accelerator, $cache_memcached;
+
+		// Add to your LocalSettings: $wgsmfRoot = '';
+		// If you have the ForumSSoProvider installed you could do: $wgsmfRoot = $wgFSPPath;
+		$ssi = $this->getConfig()->get('smfRoot');
+
+		if (!empty($ssi) && is_string($ssi) && file_exists($ssi . '/SSI.php')) {
+			include $ssi . '/Settings.php';
+
+			require_once $ssi . '/SSI.php';
+		}
 	}
 }
