@@ -1425,6 +1425,16 @@ h1.forumtitle a {
 	box-shadow: 0 5px 5px rgba(255, 255, 255, 0.2) inset;
 	text-shadow: none;
 }
+
+a.mobile_user_menu,
+a[class^="mobile_generic_menu_"] {
+	display: none;
+}
+
+#main_menu {
+	margin: 0 0 4px 0;
+}
+
 /* User information. */
 #profile_menu_top::after {
 	content: " \25BC";
@@ -1560,10 +1570,6 @@ h1.forumtitle a {
 	color: #346;
 	border: none;
 	line-height: 2.2em;
-}
-
-#main_menu {
-	margin: 10px 0 4px 0;
 }
 
 /* Levels 2 and 3 submenu wrapper. */
