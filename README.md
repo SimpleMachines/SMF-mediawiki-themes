@@ -43,6 +43,16 @@ To set as the default skin:
 $wgDefaultSkin = "smfcurve2";
 ```
 
+## Forum Configuration
+For this theme to work properly, you need to configure your SMF forum's CORS settings:
+
+1. Navigate to **Administration Center ► Server Settings ► Security**
+2. Enable the following options:
+   - **Allow CORS (Cross Origin Resource Sharing)**
+   - **Allow sending credentials over CORS**
+3. In the **Additional CORS domains** field, add your wiki's domain
+   (e.g., `your-wiki-domain.com`)
+
 ## Customizing
 We provide a few simple and more advanced methods to customizing the skin.
 

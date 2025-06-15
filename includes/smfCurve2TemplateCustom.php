@@ -71,9 +71,6 @@ class smfCurve2TemplateCustom extends smfCurve2Template
 			return;
 		}
 
-		$out = $this->getSkin()->getOutput();
-		$out->addJsConfigVars('ajax_notification_text', $txt['ajax_in_progress']);
-
 		// If the user is logged in, display some things that might be useful.
 		if ($context['user']['is_logged']) {
 			// Firstly, the user's menu
