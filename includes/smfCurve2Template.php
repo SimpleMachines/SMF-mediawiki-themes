@@ -83,6 +83,7 @@ class smfCurve2Template extends BaseTemplate
 	/**
 	 * @var bool
 	 */
+	protected $showSMFnews = false;
 	protected $showSMFmenu = false;
 	protected $useLogoImage = false;
 	protected $useSideSearchBox = false;
@@ -118,6 +119,11 @@ class smfCurve2Template extends BaseTemplate
 			include $ssi . '/Settings.php';
 
 			require_once $ssi . '/SSI.php';
+		}
+
+		// Add to your LocalSettings: $wgshowSMFnews = true;
+		if (is_bool($this->getConfig()->get('showSMFnews'))) {
+			$this->showSMFnews = $this->getConfig()->get('showSMFnews');
 		}
 
 		// Add to your LocalSettings: $wgshowSMFmenu = true;
@@ -176,6 +182,9 @@ class smfCurve2Template extends BaseTemplate
 			<div id="wrapper">
 				<div id="upper_section">
 					<div id="inner_section">';
+
+						// Show SMF News ?
+						$this->smfNews();
 
 						// Do we have an SMF Menu ?
 						$this->smfMenu();
@@ -700,6 +709,33 @@ class smfCurve2Template extends BaseTemplate
 					</div>
 				</div>
 			</div>';
+		}
+	}
+
+	/**
+	 * smfNews() --> Loads Forum News.
+	 */
+	public function smfNews()
+	{
+		global $context, $settings, $txt;
+
+		if ((defined('SMF') && $this->showSMFnews)) {
+			echo'
+				<div id="inner_wrap" class="hide_720">
+					<div class="user">
+						<time datetime="', smf_gmstrftime('%FT%TZ'), '">', $context['current_time'], '</time>
+					</div>';
+
+			// Show a random news item? (or you could pick one from news_lines...)
+			if (!empty($settings['enable_news']) && !empty($context['random_news_line']))
+				echo '
+					<div class="news">
+						<span>', $txt['news'], ': </span>
+						<p>', $context['random_news_line'], '</p>
+					</div>';
+
+			echo '
+				</div>';
 		}
 	}
 }
